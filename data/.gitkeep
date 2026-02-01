@@ -1,0 +1,18 @@
+# Data Directory
+
+This directory stores client data and outreach history.
+
+Each client gets their own subdirectory with:
+- `prospects.json` - All prospect data and generated outreach
+- `company_insights.json` - Reusable company insights
+
+## Structure
+
+```
+data/
+└── {client_id}/
+    ├── prospects.json
+    └── company_insights.json
+```
+
+Client directories are created automatically when you run the application.
