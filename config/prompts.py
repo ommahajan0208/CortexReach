@@ -43,6 +43,9 @@ PERSONA ANALYSIS:
 PERSONALIZATION HOOKS:
 {hooks}
 
+PRODUCT/SERVICE INFORMATION:
+{product_info}
+
 {company_context}
 
 REQUIREMENTS:
@@ -51,10 +54,21 @@ REQUIREMENTS:
 - Include: Subject line + body
 - Structure: Hook -> Personalized insight -> Value proposition -> Soft CTA
 - Tone: Respectful, value-focused, not salesy
-- NO generic templates or buzzwords
-- Reference SPECIFIC details from their profile
-- Show genuine research
-- Be conversational yet professional
+
+CRITICAL ANTI-HALLUCINATION RULES:
+1. ONLY use details explicitly provided in PROSPECT DATA above
+2. DO NOT invent competitions, achievements, or activities not mentioned
+3. DO NOT use placeholders like [project name] or [Your Name]
+4. If GitHub projects are listed, use their ACTUAL names
+5. Product info must match PRODUCT/SERVICE INFORMATION section exactly
+6. DO NOT fabricate mutual connections or events
+7. If no specific detail exists, use broader but honest language
+
+PERSONALIZATION STRATEGY:
+- Start with their most relevant achievement or activity from hooks
+- Connect their actual skills/projects to the product naturally
+- Show how the product solves THEIR specific pain points
+- Keep it authentic and conversational
 
 {reference}
 
@@ -78,6 +92,9 @@ PERSONA ANALYSIS:
 PERSONALIZATION HOOKS:
 {hooks}
 
+PRODUCT/SERVICE INFORMATION:
+{product_info}
+
 {company_context}
 
 REQUIREMENTS:
@@ -89,6 +106,12 @@ REQUIREMENTS:
 - NO formal language
 - Get to the point fast
 - Feel like a message from a real person
+
+CRITICAL RULES:
+1. ONLY use real details from PROSPECT DATA
+2. NO placeholders or invented achievements
+3. Use actual project/skill names if mentioned
+4. Product must match PRODUCT/SERVICE INFORMATION
 
 {reference}
 
@@ -105,13 +128,17 @@ PROSPECT DATA:
 PERSONALIZATION HOOKS:
 {hooks}
 
+PRODUCT/SERVICE:
+{product_info}
+
 REQUIREMENTS:
 - Style: Ultra-concise and punchy
 - Length: Maximum 160 characters (strict!)
-- Must include one personalized element
+- Must include one personalized element from prospect data
 - Include a clear CTA
 - NO fluff or filler words
 - Every word counts
+- Use ONLY real details, no placeholders
 
 Language: {language}
 
@@ -129,16 +156,26 @@ PERSONA ANALYSIS:
 PERSONALIZATION HOOKS:
 {hooks}
 
+PRODUCT/SERVICE INFORMATION:
+{product_info}
+
 {company_context}
 
 REQUIREMENTS:
 - Style: Professional-casual (LinkedIn native tone)
 - Length: 200-250 words
-- Reference their LinkedIn activity/posts if available
+- Reference their actual LinkedIn activity/posts if available
 - Show you're in the same professional community
 - Value-focused, not pitchy
-- Mention mutual interests or connections if relevant
 - Professional but not stiff
+
+CRITICAL RULES:
+1. ONLY use details from PROSPECT DATA
+2. NO invented competitions, awards, or activities
+3. Use actual GitHub project names if mentioned
+4. NO placeholders like [Your Name]
+5. Product must match PRODUCT/SERVICE INFORMATION
+6. Be honest - if limited data, be broader but authentic
 
 {reference}
 
@@ -158,15 +195,25 @@ PERSONA ANALYSIS:
 PERSONALIZATION HOOKS:
 {hooks}
 
+PRODUCT/SERVICE INFORMATION:
+{product_info}
+
 REQUIREMENTS:
 - Style: Casual, friendly, and authentic
 - Length: 150-200 words
 - Tone: Like messaging a potential friend
-- Reference their content/posts if available
+- Reference their actual content/posts if available
 - Be genuine and human
 - Can use emojis naturally
 - NO corporate speak
 - Build connection first, business second
+
+CRITICAL RULES:
+1. ONLY use real details from PROSPECT DATA
+2. NO invented achievements or activities
+3. Use actual project names if listed
+4. NO placeholders
+5. Product must match PRODUCT/SERVICE INFORMATION
 
 Language: {language}
 
