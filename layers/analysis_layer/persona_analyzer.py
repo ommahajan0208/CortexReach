@@ -46,12 +46,16 @@ def analyze_persona(prospect_data, llm_generate_func, llm_config):
             'raw_analysis': analysis_text
         }
         
-        # Extract communication style from analysis
-        analysis_lower = analysis_text.lower()
-        if 'casual' in analysis_lower or 'informal' in analysis_lower:
-            result['communication_style'] = 'casual'
-        elif 'technical' in analysis_lower:
-            result['communication_style'] = 'technical'
+        # Detect executive level first (priority)
+        if _is_executive(prospect_data):
+            result['communication_style'] = 'executive'
+        else:
+            # Extract communication style from analysis
+            analysis_lower = analysis_text.lower()
+            if 'casual' in analysis_lower or 'informal' in analysis_lower:
+                result['communication_style'] = 'casual'
+            elif 'technical' in analysis_lower:
+                result['communication_style'] = 'technical'
         
         print(f"Persona analyzed: {result['communication_style']} communicator")
         
@@ -67,6 +71,21 @@ def analyze_persona(prospect_data, llm_generate_func, llm_config):
             'pain_points': [],
             'raw_analysis': ''
         }
+
+
+def _is_executive(prospect_data):
+    """
+    Detect if prospect is executive level based on title/role
+    """
+    title = (prospect_data.get('title') or prospect_data.get('role') or '').lower()
+    
+    executive_keywords = [
+        'ceo', 'cto', 'cfo', 'coo', 'cmo', 'chief',
+        'founder', 'co-founder', 'president', 'vp', 
+        'vice president', 'director', 'head of', 'managing director'
+    ]
+    
+    return any(keyword in title for keyword in executive_keywords)
 
 
 def format_prospect_data(data):
