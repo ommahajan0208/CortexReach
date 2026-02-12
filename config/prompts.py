@@ -4,18 +4,48 @@ Each channel has unique style, length, and tone requirements
 """
 
 # Analysis prompts
-PERSONA_ANALYSIS_PROMPT = """Analyze this prospect data and identify their persona:
+PERSONA_ANALYSIS_PROMPT = """Analyze this prospect data and determine their communication style.
 
 Data:
 {prospect_data}
 
-Identify:
-1. Communication style (formal/casual/technical)
-2. Key interests and expertise areas
-3. Likely pain points based on role and activity
-4. Personality indicators
+Based on their role, title, and professional context, return ONLY ONE of these communication styles:
+- executive (short, high-value, decision-focused - for C-level, VPs, Directors, Founders)
+- technical (logical, detailed, data-driven - for engineers, developers, technical specialists)
+- friendly (warm, personalized, human - for creative roles, community-focused professionals)
+- formal (professional, structured, low slang - for traditional corporate roles, consultants)
+- skeptical (low-pressure, trust-building - for privacy-conscious or cautious professionals)
 
-Return a concise analysis focusing on what matters for personalized outreach."""
+Return ONLY the style name, nothing else. Just one word: executive, technical, friendly, formal, or skeptical."""
+
+PERSONA_TYPE_PROMPT = """Analyze this prospect data and determine their persona type.
+
+Data:
+{prospect_data}
+
+Based on their activities, interests, role, and professional behavior, return ONLY ONE of these persona types:
+- innovator (early adopters, tech enthusiasts, loves new solutions and cutting-edge tools)
+- builder (makers, creators, hands-on developers who build and ship products)
+- analyst (data-driven, researchers, strategic thinkers who deep-dive into problems)
+- leader (managers, executives, team leads focused on people and organizational growth)
+- specialist (deep experts in specific domains, focused on mastery)
+- entrepreneur (founders, business builders, growth-focused, opportunity seekers)
+
+Return ONLY the persona type name, nothing else. Just one word: innovator, builder, analyst, leader, specialist, or entrepreneur."""
+
+KEY_INTERESTS_PROMPT = """Analyze this prospect data and identify their top 3 key interests or focus areas.
+
+Data:
+{prospect_data}
+
+Based on their skills, projects, activities, bio, and professional context, identify the 3 most relevant interests or focus areas that would be valuable for personalized outreach.
+
+Return ONLY a comma-separated list of 3 interests, ordered from MOST relevant to LEAST relevant. No explanations, no numbering, just: interest1, interest2, interest3
+
+Example formats:
+- AI/ML, Cloud Infrastructure, DevOps
+- Product Design, User Research, SaaS Growth
+- Data Analytics, Python, Business Intelligence"""
 
 HOOK_EXTRACTION_PROMPT = """Extract personalization hooks from this prospect data:
 
@@ -29,7 +59,10 @@ Find specific, actionable hooks such as:
 - Company challenges or initiatives
 - Career achievements or transitions
 
-Return a list of the most relevant hooks for cold outreach."""
+Return ONLY a comma-separated list of 3-5 personalization hooks, ordered from MOST relevant to LEAST relevant for cold outreach. No explanations, no numbering, just the hooks separated by commas.
+
+Example format:
+Recently launched AI chatbot project, Uses Python and React extensively, Passionate about developer tools"""
 
 # Email generation prompt (Professional, structured, 150-200 words)
 EMAIL_PROMPT = """Generate a hyper-personalized cold email for this prospect.

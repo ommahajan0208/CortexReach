@@ -38,8 +38,14 @@ def extract_hooks(prospect_data, llm_generate_func, llm_config):
     try:
         hooks_text = llm_generate_func(prompt, llm_config)
         
-        # Parse hooks (simple implementation)
-        hooks = parse_hooks_from_text(hooks_text, prospect_data)
+        # Parse comma-separated hooks
+        hooks = [h.strip() for h in hooks_text.strip().split(',') if h.strip()]
+        
+        # If no hooks parsed, return empty list
+        if not hooks:
+            return []
+        
+        hooks = hooks[:5]  # Top 5 hooks
         
         print(f"Extracted {len(hooks)} personalization hooks")
         
@@ -47,8 +53,7 @@ def extract_hooks(prospect_data, llm_generate_func, llm_config):
         
     except Exception as e:
         print(f"Error extracting hooks: {str(e)}")
-        # Fallback to rule-based hooks
-        return extract_basic_hooks(prospect_data)
+        return []
 
 
 def format_prospect_data_for_hooks(data):
@@ -82,65 +87,3 @@ def format_prospect_data_for_hooks(data):
         lines.append(f"Interests: {', '.join(data['interests'][:5])}")
     
     return '\n'.join(lines) if lines else "Limited data"
-
-
-def parse_hooks_from_text(text, prospect_data):
-    """Parse hooks from LLM output"""
-    hooks = []
-    
-    # Split by lines and look for hook patterns
-    lines = text.strip().split('\n')
-    
-    for line in lines:
-        line = line.strip()
-        if line and len(line) > 10:
-            # Remove bullet points, numbers
-            cleaned = line.lstrip('- •*0123456789. ')
-            if cleaned:
-                hooks.append({
-                    'hook_type': 'llm_generated',
-                    'hook_text': cleaned,
-                    'relevance_score': 0.8
-                })
-    
-    # If no hooks parsed, fall back
-    if not hooks:
-        hooks = extract_basic_hooks(prospect_data)
-    
-    return hooks[:5]  # Top 5 hooks
-
-
-def extract_basic_hooks(prospect_data):
-    """Rule-based hook extraction as fallback"""
-    hooks = []
-    
-    if prospect_data.get('recent_activity'):
-        hooks.append({
-            'hook_type': 'recent_activity',
-            'hook_text': prospect_data['recent_activity'][0][:150],
-            'relevance_score': 0.9
-        })
-    
-    if prospect_data.get('projects') and len(prospect_data['projects']) > 0:
-        proj = prospect_data['projects'][0]
-        hooks.append({
-            'hook_type': 'project',
-            'hook_text': f"Working on {proj['name']} - {proj.get('description', '')}",
-            'relevance_score': 0.8
-        })
-    
-    if prospect_data.get('tech_stack'):
-        hooks.append({
-            'hook_type': 'tech_stack',
-            'hook_text': f"Using {', '.join(prospect_data['tech_stack'][:3])}",
-            'relevance_score': 0.7
-        })
-    
-    if prospect_data.get('role') and prospect_data.get('company'):
-        hooks.append({
-            'hook_type': 'role',
-            'hook_text': f"{prospect_data['role']} at {prospect_data['company']}",
-            'relevance_score': 0.9
-        })
-    
-    return hooks[:5]

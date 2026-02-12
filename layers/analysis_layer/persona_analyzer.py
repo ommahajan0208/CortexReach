@@ -6,7 +6,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
-from config.prompts import PERSONA_ANALYSIS_PROMPT
+from config.prompts import PERSONA_ANALYSIS_PROMPT, PERSONA_TYPE_PROMPT, KEY_INTERESTS_PROMPT
 
 
 def analyze_persona(prospect_data, llm_generate_func, llm_config):
@@ -22,8 +22,7 @@ def analyze_persona(prospect_data, llm_generate_func, llm_config):
         dict: {
             'persona_type': str,
             'communication_style': str,
-            'key_interests': list,
-            'pain_points': list
+            'key_interests': list
         }
     """
     print("\n[ANALYSIS] Analyzing prospect persona...")
@@ -31,33 +30,56 @@ def analyze_persona(prospect_data, llm_generate_func, llm_config):
     # Format prospect data for prompt
     data_summary = format_prospect_data(prospect_data)
     
-    # Generate persona analysis
-    prompt = PERSONA_ANALYSIS_PROMPT.format(prospect_data=data_summary)
+    
     
     try:
-        analysis_text = llm_generate_func(prompt, llm_config)
+        # Generate communication style analysis
+        style_prompt = PERSONA_ANALYSIS_PROMPT.format(prospect_data=data_summary)
+        communication_style = llm_generate_func(style_prompt, llm_config).strip().lower()
         
-        # Parse the analysis (basic parsing)
+        # Validate the returned style
+        valid_styles = [
+            "executive",     # short, high-value, decision-focused
+            "technical",     # logical, detailed, data-driven
+            "friendly",      # warm, personalized, human
+            "formal",        # professional, structured, low slang
+            "skeptical"      # low-pressure, trust-building
+        ]
+        if communication_style not in valid_styles:
+            communication_style = 'formal'  # Default fallback
+        
+        # Generate persona type analysis
+        type_prompt = PERSONA_TYPE_PROMPT.format(prospect_data=data_summary)
+        persona_type = llm_generate_func(type_prompt, llm_config).strip().lower()
+        
+        # Validate the returned persona type
+        valid_types = [
+            "innovator",      # early adopters, tech enthusiasts
+            "builder",        # makers, creators, developers
+            "analyst",        # data-driven, researchers
+            "leader",         # managers, executives
+            "specialist",     # deep experts
+            "entrepreneur"    # founders, business builders
+        ]
+        if persona_type not in valid_types:
+            persona_type = 'builder'  # Default fallback
+        
+        # Generate key interests analysis
+        interests_prompt = KEY_INTERESTS_PROMPT.format(prospect_data=data_summary)
+        interests_result = llm_generate_func(interests_prompt, llm_config).strip()
+        
+        # Parse comma-separated interests
+        key_interests = [i.strip() for i in interests_result.split(',') if i.strip()]
+        if not key_interests:
+            key_interests = prospect_data.get('interests', [])[:3]  # Fallback
+        
         result = {
-            'persona_type': 'professional',  # Default
-            'communication_style': 'formal',
-            'key_interests': prospect_data.get('interests', [])[:3],
-            'pain_points': [],
-            'raw_analysis': analysis_text
+            'persona_type': persona_type,
+            'communication_style': communication_style,
+            'key_interests': key_interests
         }
         
-        # Detect executive level first (priority)
-        if _is_executive(prospect_data):
-            result['communication_style'] = 'executive'
-        else:
-            # Extract communication style from analysis
-            analysis_lower = analysis_text.lower()
-            if 'casual' in analysis_lower or 'informal' in analysis_lower:
-                result['communication_style'] = 'casual'
-            elif 'technical' in analysis_lower:
-                result['communication_style'] = 'technical'
-        
-        print(f"Persona analyzed: {result['communication_style']} communicator")
+        print(f"Persona analyzed: {result['persona_type']} | {result['communication_style']} communicator")
         
         return result
         
@@ -65,28 +87,10 @@ def analyze_persona(prospect_data, llm_generate_func, llm_config):
         print(f"Error analyzing persona: {str(e)}")
         # Return basic analysis
         return {
-            'persona_type': 'professional',
+            'persona_type': 'builder',
             'communication_style': 'formal',
-            'key_interests': prospect_data.get('interests', [])[:3],
-            'pain_points': [],
-            'raw_analysis': ''
+            'key_interests': []
         }
-
-
-def _is_executive(prospect_data):
-    """
-    Detect if prospect is executive level based on title/role
-    """
-    title = (prospect_data.get('title') or prospect_data.get('role') or '').lower()
-    
-    executive_keywords = [
-        'ceo', 'cto', 'cfo', 'coo', 'cmo', 'chief',
-        'founder', 'co-founder', 'president', 'vp', 
-        'vice president', 'director', 'head of', 'managing director'
-    ]
-    
-    return any(keyword in title for keyword in executive_keywords)
-
 
 def format_prospect_data(data):
     """Format prospect data for LLM prompt"""

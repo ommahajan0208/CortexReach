@@ -17,7 +17,7 @@ def generate_with_llm(prompt, config, max_tokens=500):
     Returns:
         str: generated text
     """
-    provider = config.get('provider', 'ollama')
+    provider = 'ollama'
     
     if provider == 'ollama':
         return generate_with_ollama(prompt, config, max_tokens)
@@ -32,7 +32,7 @@ def generate_with_ollama(prompt, config, max_tokens):
     payload = {
         'model': config['model_name'],
         'prompt': prompt,
-        'temperature': config.get('temperature', 0.7),
+        'temperature': config.get('temperature', 0.8),
         'stream': False,
         'options': {
             'num_predict': max_tokens
@@ -40,7 +40,7 @@ def generate_with_ollama(prompt, config, max_tokens):
     }
     
     try:
-        response = requests.post(url, json=payload, timeout=120)
+        response = requests.post(url, json=payload, timeout=240)
         response.raise_for_status()
         
         result = response.json()
