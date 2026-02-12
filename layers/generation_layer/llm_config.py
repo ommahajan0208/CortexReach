@@ -25,7 +25,7 @@ def get_llm_config():
         'model_name': 'llama3',
         'api_url': 'http://localhost:11434',
         'language': 'English',
-        'temperature': 0.8,
+        'temperature': 0.7,
         'provider': 'ollama'
     }
     
@@ -37,12 +37,6 @@ def get_llm_config():
         
         # Ask for model
         print("\nDefault model: llama3")
-
-        print("\nRecommended models:")
-        print("   - llama2 (fast)")
-        print("   - mistral (better quality)")
-        print("   - llama3 (default, best quality)")
-
         model_input = input("Enter model name (or press Enter for default): ").strip()
         if model_input:
             config['model_name'] = model_input
@@ -65,6 +59,30 @@ def get_llm_config():
             return None
         
         print("Ollama connected!")
+    
+    # Language selection
+    print("\nSelect output language:")
+    print("  1. English (default)")
+    print("  2. Spanish")
+    print("  3. French")
+    print("  4. German")
+    print("  5. Other")
+    
+    lang_choice = input("\nEnter choice (or press Enter for English): ").strip()
+    
+    lang_map = {
+        '1': 'English',
+        '2': 'Spanish',
+        '3': 'French',
+        '4': 'German',
+    }
+    
+    if lang_choice == '5':
+        config['language'] = input("Enter language: ").strip() or 'English'
+    elif lang_choice in lang_map:
+        config['language'] = lang_map[lang_choice]
+    
+    print(f"\nLLM configured: {config['model_name']} | Language: {config['language']}")
     
     return config
 

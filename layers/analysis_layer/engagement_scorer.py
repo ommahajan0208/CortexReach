@@ -16,7 +16,7 @@ def calculate_engagement_score(prospect_data, persona_data):
     """
     print("\n[ANALYSIS] Calculating engagement score...")
     
-    score = 30.0  # Base score
+    score = 50.0  # Base score
     
     # Data completeness (more data = better personalization = higher engagement)
     if prospect_data.get('name'):

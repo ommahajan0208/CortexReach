@@ -37,7 +37,7 @@ Generate unique, platform-optimized content for:
 ## 🏗️ Architecture
 
 ```
-CortexReach/
+omanu/
 ├── main.py                      # Entry point
 ├── runner.py                    # Workflow orchestrator
 ├── config/
@@ -78,7 +78,7 @@ CortexReach/
 
 1. **Clone/Download the project**
    ```bash
-   cd CortexReach
+   cd omanu
    ```
 
 2. **Install dependencies**

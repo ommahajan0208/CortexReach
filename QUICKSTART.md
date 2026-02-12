@@ -46,7 +46,7 @@ curl http://localhost:11434/api/tags
 ### 1. Navigate to Project
 
 ```bash
-cd CortexReach
+cd omanu
 ```
 
 ### 2. Install Python Dependencies

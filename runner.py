@@ -3,6 +3,9 @@ Runner - Orchestrates the entire workflow
 Coordinates all layers and manages the flow from input to output
 """
 
+import sys
+import os
+
 # Import all layer functions
 from layers.input_layer.prospect_loader import get_user_inputs, merge_prospect_data
 from layers.input_layer.linkedin_scraper import scrape_linkedin_profile
