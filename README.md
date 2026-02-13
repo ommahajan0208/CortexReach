@@ -1,12 +1,12 @@
-# 🚀 Offline LLM-Powered Hyper-Personalized Cold Outreach Engine
+﻿# CortexReach - Offline LLM-Powered Hyper-Personalized Cold Outreach Engine
 
 A terminal-based tool that generates hyper-personalized cold outreach messages across multiple channels using offline LLMs and intelligent data analysis.
 
-## ✨ Key Features
+## Key Features
 
 ### Multi-Source Data Collection
 - **LinkedIn** - Extract professional profile data
-- **Company Website** - Scrape company information and tech stack
+- **Company Website** - Scrape company information and technology stack
 - **Twitter/X** - Gather social insights and interests
 - **GitHub** - Analyze technical projects and contributions
 
@@ -14,19 +14,19 @@ A terminal-based tool that generates hyper-personalized cold outreach messages a
 - **Persona Analysis** - Understand communication style and preferences
 - **Engagement Scoring** - Predict likelihood of response (0-100)
 - **Hook Extraction** - Identify personalization opportunities
-- **Company Context** - Reuse insights from previous outreach to same company
+- **Company Context** - Reuse insights from previous outreach to the same company
 
 ### Multi-Channel Output
 Generate unique, platform-optimized content for:
 - **Email** - Professional, structured (150-200 words)
-- **WhatsApp** - Conversational, brief (~300-400 chars)
-- **SMS** - Ultra-short, punchy (max 160 chars)
-- **LinkedIn DM** - Professional-casual (~200-250 words)
-- **Instagram DM** - Casual, friendly (~150-200 words)
+- **WhatsApp** - Conversational, brief (approximately 300-400 characters)
+- **SMS** - Ultra-short, concise (maximum 160 characters)
+- **LinkedIn DM** - Professional-casual (approximately 200-250 words)
+- **Instagram DM** - Casual, friendly (approximately 150-200 words)
 
-### Privacy & Ethics
-- Privacy validation (no sensitive data leaks)
-- Ethics checking (no manipulative language)
+### Privacy and Ethics
+- Privacy validation to prevent sensitive data leaks
+- Ethics checking to avoid manipulative language
 - Content regeneration with modifications
 
 ### Smart Learning
@@ -34,51 +34,80 @@ Generate unique, platform-optimized content for:
 - **Company insights reuse** - Leverage previous research
 - **Natural referencing** - Optionally mention past contacts
 
-## 🏗️ Architecture
+## Architecture
 
 ```
-omanu/
+CortexReach/
 ├── main.py                      # Entry point
 ├── runner.py                    # Workflow orchestrator
+├── PROJECT_SUMMARY.py           # Project overview and documentation
+├── requirements.txt             # Python dependencies
+├── QUICKSTART.md                # Quick start guide
+├── README.md                    # Full documentation
+├── LICENSE                      # Apache 2.0 License
+├── .gitignore                   # Git ignore rules
 ├── config/
+│   ├── __init__.py
 │   └── prompts.py              # Channel-specific LLM prompts
 ├── layers/
+│   ├── __init__.py
 │   ├── input_layer/            # Data collection
-│   ├── analysis_layer/         # Intelligence & scoring
-│   ├── context_layer/          # Learning & reuse
+│   │   ├── prospect_loader.py  # Menu and input orchestration
+│   │   ├── linkedin_scraper.py # LinkedIn data collection
+│   │   ├── website_scraper.py  # Company website scraping
+│   │   ├── x_scraper.py       # Twitter/X data collection
+│   │   └── github_scraper.py  # GitHub profile analysis
+│   ├── analysis_layer/         # Intelligence and scoring
+│   │   ├── persona_analyzer.py # Communication style analysis
+│   │   ├── engagement_scorer.py# Response likelihood prediction
+│   │   └── hook_extractor.py  # Personalization opportunities
+│   ├── context_layer/          # Learning and reuse
+│   │   ├── company_matcher.py  # Same-company prospect matching
+│   │   ├── insight_reuser.py  # Company knowledge reuse
+│   │   └── reference_builder.py# Natural referencing
 │   ├── generation_layer/       # Content creation
-│   ├── validation_layer/       # Privacy & ethics
+│   │   ├── llm_config.py      # Model and language configuration
+│   │   ├── llm_interface.py   # LLM communication and generation
+│   │   ├── product_config.py  # Product configuration
+│   │   └── regenerator.py     # Output modification
+│   ├── optimization_layer/     # Content optimization
+│   │   └── critic_optimizer.py # Automatic critic pass
+│   ├── validation_layer/       # Privacy and ethics
+│   │   ├── privacy_checker.py # Prevent data leaks
+│   │   └── ethics_validator.py# Check for manipulation
 │   └── storage_layer/          # Data persistence
+│       ├── client_manager.py  # Client ID management
+│       └── json_storage.py    # Save/load prospect data
 └── data/                       # Client data storage
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
-1. **Install Python 3.8+**
+1. **Install Python 3.12 Avoid 3.13+**
 
 2. **Install Ollama** (Offline LLM)
    ```bash
-   # Visit https://ollama.ai and install for your OS
-   
+   # Visit https://ollama.ai and install for your operating system
+
    # Pull a model (choose one):
-   ollama pull llama2        # Fast, good quality
+   ollama pull llama2        # Fast- good quality
    ollama pull mistral       # Better quality
    ollama pull llama3        # Best quality, slower
    ```
 
 3. **Start Ollama**
    ```bash
-   # Ollama should start automatically
-   # Or start manually (check Ollama docs for your OS)
+   # Ollama should start automatically after installation.
+   # Refer to the Ollama documentation for platform-specific instructions.
    ```
 
 ### Installation
 
-1. **Clone/Download the project**
+1. **Clone or download the project**
    ```bash
-   cd omanu
+   cd CortexReach
    ```
 
 2. **Install dependencies**
@@ -92,109 +121,84 @@ omanu/
 python main.py
 ```
 
-## 📖 Usage Guide
+## Usage Guide
 
 ### Step-by-Step Workflow
 
 1. **Client Selection**
-   - Choose existing client or create new
-   - Each client gets isolated data storage
+   - Choose an existing client or create a new one.
+   - Each client receives isolated data storage.
 
 2. **LLM Configuration**
-   - Select model (llama2, mistral, llama3, etc.)
-   - Choose language (English, Spanish, French, etc.)
+   - Select a model (llama2, mistral, llama3, etc.).
+   - Choose a language (English, Spanish, French, etc.).
 
 3. **Input Selection**
-   - Select data sources (LinkedIn, Website, X, GitHub)
-   - Provide URLs for selected sources
-   - Select output channels (Email, WhatsApp, etc.)
+   - Select data sources (LinkedIn, Website, X, GitHub).
+   - Provide URLs for each selected source.
+   - Select output channels (Email, WhatsApp, etc.).
 
 4. **Data Collection**
-   - Automatic scraping (where possible)
-   - Manual input for authenticated platforms
-   - Data merging from all sources
+   - Automatic scraping where applicable.
+   - Manual input for authenticated platforms.
+   - Data merging from all sources.
 
 5. **Analysis**
-   - Persona analysis
-   - Engagement score calculation
-   - Personalization hook extraction
+   - Persona analysis.
+   - Engagement score calculation.
+   - Personalization hook extraction.
 
-6. **Context & Learning**
-   - Check for previous contacts at same company
-   - Reuse company insights
-   - Build natural references
+6. **Context and Learning**
+   - Check for previous contacts at the same company.
+   - Reuse company insights from prior outreach.
+   - Build natural references.
 
 7. **Content Generation**
-   - Generate content for each selected channel
-   - Channel-specific formatting and tone
+   - Generate content for each selected channel.
+   - Apply channel-specific formatting and tone.
 
-8. **Validation & Review**
-   - Privacy check
-   - Ethics validation
-   - Content display
+8. **Validation and Review**
+   - Privacy check.
+   - Ethics validation.
+   - Content display.
 
 9. **Regeneration (Optional)**
-   - Modify specific channels
-   - Specify desired changes
-   - Regenerate while preserving tone
+   - Modify specific channels.
+   - Specify desired changes.
+   - Regenerate while preserving tone.
 
 10. **Save**
-    - Store prospect data
-    - Save company insights for reuse
+    - Store prospect data.
+    - Save company insights for reuse.
 
-### Example Session
-
-```
-# User selects:
-- Input: LinkedIn + Company Website
-- Channels: Email + LinkedIn DM
-- Provides URLs
-
-# System:
-[1/8] Client Management ✓
-[2/8] LLM Configuration ✓
-[3/8] Input Collection ✓
-[4/8] Data Collection ✓
-[5/8] Prospect Analysis ✓
-[6/8] Context & Learning ✓
-[7/8] Content Generation ✓
-[8/8] Validation & Output ✓
-
-# Displays generated content for review
-# User can regenerate with modifications
-# Finally saves everything
-```
-
-## 🎯 Creative Approaches
-
-### What Makes This Different
+## Differentiating Factors
 
 1. **Multi-dimensional personalization**
-   - Not just name/company insertion
-   - Deep analysis of persona and context
-   - Platform-specific optimization
+   - Goes beyond simple name/company insertion.
+   - Deep analysis of persona and context.
+   - Platform-specific optimization.
 
 2. **Company context reuse**
-   - Learn from previous outreach to same company
-   - Natural referencing to past contacts
-   - Cumulative intelligence
+   - Learns from previous outreach to the same company.
+   - Natural referencing to past contacts.
+   - Cumulative intelligence.
 
 3. **Engagement prediction**
-   - Data quality scoring
-   - Response likelihood prediction
-   - Helps prioritize outreach
+   - Data quality scoring.
+   - Response likelihood prediction.
+   - Helps prioritize outreach efforts.
 
 4. **Privacy-first design**
-   - All processing happens locally
-   - No data sent to external APIs
-   - Full control over your data
+   - All processing is performed locally.
+   - No data is sent to external APIs.
+   - Full control over your data.
 
 5. **Iterative refinement**
-   - Regenerate with specific modifications
-   - Preserve tone while making changes
-   - Quick iteration workflow
+   - Regenerate with specific modifications.
+   - Preserve tone while making changes.
+   - Rapid iteration workflow.
 
-## 🔧 Configuration
+## Configuration
 
 ### Supported Languages
 
@@ -202,33 +206,33 @@ python main.py
 - Spanish
 - French
 - German
-- Any language your LLM supports
+- Any language supported by the configured LLM
 
 ### Recommended Models
 
-| Model | Speed | Quality | Use Case |
-|-------|-------|---------|----------|
-| llama2 | Fast | Good | Testing, high volume |
-| mistral | Medium | Better | Production use |
-| llama3 | Slow | Best | Premium outreach |
+| Model   | Speed  | Quality | Use Case                |
+|---------|--------|---------|-------------------------|
+| llama2  | Fast   | Good    | Testing, high volume    |
+| mistral | Medium | Better  | Production use          |
+| llama3  | Slow   | Best    | Premium outreach        |
 
 ### Channel Specifications
 
-| Channel | Length | Tone | Special Features |
-|---------|--------|------|------------------|
-| Email | 150-200 words | Professional | Subject line included |
-| WhatsApp | 300-400 chars | Conversational | Emoji-friendly |
-| SMS | Max 160 chars | Ultra-concise | Punchy CTAs |
-| LinkedIn | 200-250 words | Professional-casual | Platform-native |
-| Instagram | 150-200 words | Casual | Authentic, friendly |
+| Channel   | Length          | Tone                | Special Features       |
+|-----------|----------------|---------------------|------------------------|
+| Email     | 150-200 words  | Professional        | Subject line included  |
+| WhatsApp  | 300-400 chars  | Conversational      | Informal tone          |
+| SMS       | Max 160 chars  | Ultra-concise       | Direct call-to-action  |
+| LinkedIn  | 200-250 words  | Professional-casual | Platform-native        |
+| Instagram | 150-200 words  | Casual              | Authentic, friendly    |
 
-## 📊 Data Storage
+## Data Storage
 
 Data is organized by client:
 
 ```
 data/
-└── client_20240201_143022_a1b2c3d4/
+└── client_20260201_143022_a1b2c3d4/
     ├── prospects.json          # All prospects
     └── company_insights.json   # Reusable insights
 ```
@@ -240,18 +244,17 @@ data/
   "prospect_data": {
     "name": "Jane Smith",
     "company": "TechCorp",
-    "role": "VP Engineering",
-    ...
+    "role": "VP Engineering"
   },
   "generated_outputs": {
     "email": "...",
     "linkedin": "..."
   },
-  "timestamp": "2024-02-01T14:30:22"
+  "timestamp": "2026-02-01T14:30:22"
 }
 ```
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### Ollama Connection Issues
 
@@ -259,8 +262,7 @@ data/
 # Check if Ollama is running
 curl http://localhost:11434/api/tags
 
-# Restart Ollama (OS-specific)
-# Check Ollama documentation
+# Restart Ollama (refer to platform-specific documentation)
 ```
 
 ### Import Errors
@@ -272,21 +274,10 @@ pip install -r requirements.txt --force-reinstall
 
 ### Slow Generation
 
-- Use a faster model (llama2 instead of llama3)
-- Reduce max_tokens in llm_interface.py
-- Ensure Ollama has sufficient resources
+- Use a faster model (llama2 instead of llama3).
+- Reduce max_tokens in llm_interface.py.
+- Ensure Ollama has sufficient system resources.
 
-## 🚧 Future Enhancements
+## License
 
-- [ ] Advanced web scraping (Selenium/Playwright)
-- [ ] Email sending integration
-- [ ] Response tracking and analytics
-- [ ] A/B testing framework
-- [ ] Fine-tuning on successful outreach
-- [ ] CRM integration
-- [ ] Batch processing
-- [ ] Web UI (Gradio/Streamlit)
-
-## 📝 License
-
-Apache 2.0 License 
+This project is licensed under the Apache 2.0 License. See the LICENSE file for details.
