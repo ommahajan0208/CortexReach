@@ -1,24 +1,13 @@
-# 🚀 Quick Start Guide
+# Quick Start Guide
 
 ## Prerequisites Setup
 
 ### 1. Install Ollama
 
-**Windows:**
 ```powershell
 # Download from https://ollama.ai/download/windows
-# Run the installer
-# Ollama will start automatically
-```
-
-**Mac:**
-```bash
-brew install ollama
-```
-
-**Linux:**
-```bash
-curl -fsSL https://ollama.ai/install.sh | sh
+# Run the installer.
+# Ollama will start automatically.
 ```
 
 ### 2. Pull an LLM Model
@@ -34,7 +23,7 @@ ollama pull mistral
 ollama pull llama3
 ```
 
-### 3. Verify Ollama is Running
+### 3. Verify Ollama Is Running
 
 ```bash
 # Test the API
@@ -43,10 +32,10 @@ curl http://localhost:11434/api/tags
 
 ## Installation
 
-### 1. Navigate to Project
+### 1. Navigate to the Project Directory
 
 ```bash
-cd omanu
+cd CortexReach
 ```
 
 ### 2. Install Python Dependencies
@@ -66,17 +55,17 @@ python main.py
 ## First Run Walkthrough
 
 ### 1. Welcome Screen
-- Read the banner and prerequisites
-- Press Enter to continue
+- Review the banner and prerequisites information.
+- Press Enter to continue.
 
 ### 2. Client Setup
-- Choose to create a new client or use existing
-- A unique client ID will be generated
+- Choose to create a new client or use an existing one.
+- A unique client ID will be generated.
 
 ### 3. LLM Configuration
-- System checks if Ollama is running
-- Select or confirm the model (default: llama2)
-- Choose output language (default: English)
+- The system will verify that Ollama is running.
+- Select or confirm the model (default: llama2).
+- Choose the output language (default: English).
 
 ### 4. Input Selection
 ```
@@ -107,24 +96,24 @@ Available channels:
   4. LinkedIn DM
   5. Instagram DM
 
-Example: 1,4 (for Email + LinkedIn)
+Example: 1,4 (for Email + LinkedIn DM)
 ```
 
 ### 7. Wait for Processing
-The system will:
-- [1/8] Setup client ✓
-- [2/8] Configure LLM ✓
-- [3/8] Collect inputs ✓
-- [4/8] Scrape data ✓
-- [5/8] Analyze persona ✓
-- [6/8] Check context ✓
-- [7/8] Generate content ✓
-- [8/8] Validate & display ✓
+The system will proceed through the following stages:
+- [1/8] Client setup - Complete
+- [2/8] LLM configuration - Complete
+- [3/8] Input collection - Complete
+- [4/8] Data scraping - Complete
+- [5/8] Persona analysis - Complete
+- [6/8] Context check - Complete
+- [7/8] Content generation - Complete
+- [8/8] Validation and display - Complete
 
 ### 8. Review Output
-- Each channel's content is displayed
-- Privacy and ethics validation results shown
-- Content length and characteristics listed
+- Each channel's content is displayed.
+- Privacy and ethics validation results are shown.
+- Content length and characteristics are listed.
 
 ### 9. Options
 ```
@@ -134,122 +123,41 @@ The system will:
 ```
 
 **To regenerate:**
-- Select option 1
-- Choose which channel
-- Describe your desired changes
-  - Example: "Make it shorter and more casual"
-  - Example: "Add more about their GitHub projects"
-  - Example: "Remove the reference to past contact"
+- Select option 1.
+- Choose which channel to regenerate.
+- Describe the desired changes. For example:
+  - "Make it shorter and more casual."
+  - "Add more detail about their GitHub projects."
+  - "Remove the reference to a past contact."
 
 ### 10. Save
-- Select option 2 to save
-- All data stored in `data/{client_id}/`
-- Company insights saved for future reuse
-
-## Example Session
-
-```
-# Input
-Sources: LinkedIn + GitHub
-Channels: Email + LinkedIn DM
-
-LinkedIn: https://linkedin.com/in/jane-tech
-GitHub: https://github.com/janetech
-
-# Manual entry for LinkedIn
-Name: Jane Smith
-Role: Senior Developer
-Company: TechCorp
-Skills: Python, React, AWS
-
-# Output
-✅ Generated Email (182 words)
-✅ Generated LinkedIn DM (215 words)
-📊 Engagement Score: 75/100
-
-# Review, regenerate if needed, then save
-```
+- Select option 2 to save.
+- All data is stored in the `data/{client_id}/` directory.
+- Company insights are saved for future reuse.
 
 ## Tips for Best Results
 
 ### 1. Provide More Data
-- More input sources = better personalization
-- Include recent activity when available
-- Mention specific projects or interests
+- More input sources lead to better personalization.
+- Include recent activity when available.
+- Mention specific projects or interests.
 
 ### 2. Use GitHub for Technical Prospects
-- Automatically extracts languages and projects
-- No authentication required
-- Great for developer outreach
+- Automatically extracts programming languages and projects.
+- No authentication is required.
+- Well-suited for developer outreach.
 
 ### 3. Company Website Scraping
-- Provides company context automatically
-- Detects tech stack
-- Infers industry
+- Provides company context automatically.
+- Detects the technology stack.
+- Infers industry classification.
 
 ### 4. Leverage Company Context
-- Second person from same company gets better context
-- Natural references to previous contacts
-- Cumulative intelligence
+- A second contact from the same company benefits from richer context.
+- Natural references to previous contacts are generated.
+- Intelligence is accumulated over time.
 
 ### 5. Iterate with Regeneration
-- Don't settle for first output
-- Use specific modification requests
-- Tone and personalization are preserved
-
-## Common Issues
-
-### "Ollama not running"
-```bash
-# Windows: Open Ollama app from Start menu
-# Mac/Linux: ollama serve
-```
-
-### "Model not found"
-```bash
-ollama pull llama2
-# or whichever model you want to use
-```
-
-### Slow generation
-- Use llama2 instead of llama3
-- Ollama needs adequate RAM (8GB+ recommended)
-- Close other applications
-
-### Import errors
-```bash
-pip install -r requirements.txt --force-reinstall
-```
-
-## Next Steps
-
-1. **Try different models**
-   - Compare llama2 vs mistral vs llama3
-   - Find the right speed/quality balance
-
-2. **Experiment with channels**
-   - See how each channel adapts content
-   - Notice tone and length differences
-
-3. **Build company context**
-   - Contact multiple people from same company
-   - Watch how insights accumulate
-
-4. **Test languages**
-   - Try Spanish, French, German
-   - LLM adapts content naturally
-
-5. **Refine with regeneration**
-   - Practice giving modification instructions
-   - Learn what works best
-
-## Support
-
-For issues or questions:
-- Check README.md for detailed documentation
-- Review architecture in code comments
-- Examine prompts in config/prompts.py
-
----
-
-**Happy outreaching! 🚀**
+- Do not settle for the first output.
+- Use specific modification requests.
+- Tone and personalization are preserved across regenerations.
