@@ -10,16 +10,10 @@
 # Ollama will start automatically.
 ```
 
-### 2. Pull an LLM Model
+### 2. Pull llama3 Model (Required)
 
 ```bash
-# Recommended for testing (fast)
-ollama pull llama2
-
-# Recommended for production (better quality)
-ollama pull mistral
-
-# Best quality (slower)
+# This is the auto-configured model
 ollama pull llama3
 ```
 
@@ -38,45 +32,70 @@ curl http://localhost:11434/api/tags
 cd CortexReach
 ```
 
-### 2. Install Python Dependencies
+### 2. Create Virtual Environment (Recommended)
+
+```bash
+# Windows PowerShell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+
+# macOS/Linux
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install Python Dependencies
 
 ```bash
 pip install -r requirements.txt
+# Installs: requests, beautifulsoup4, lxml, rich (for beautiful UI)
 ```
 
 ## Running the Application
 
-### Quick Test with Fake Data (Recommended First Run)
+### 🎉 Main Application (Beautiful Rich TUI)
 
 ```bash
 python main_enhanced.py
 ```
 
-Choose **Option 1 (Fake Data Mode)** for instant testing:
-- No scraping required
-- 10 pre-loaded comprehensive prospects
-- Tests all features immediately
-- Perfect for demonstrations
+**Features:**
+- 🎨 Beautiful terminal UI with Rich library
+- 📊 Color-coded workflow steps (1/8, 2/8, etc.)
+- 🔄 Progress bars with spinners during generation
+- 📋 Elegant tables for personalization hooks
+- ✨ Professional formatting for hackathon demos
+
+**Test Data:**
+- 10 comprehensive fake prospects (no scraping needed)
+- 4 persona types: Technical, Executive, Founders, Researchers
+- Multiple prospects from same companies (tests context reuse)
+- All data sources covered (LinkedIn, Website, X, GitHub)
+
+**Auto-Configured:**
+- Model: llama3 (no selection needed)
+- Language: English (no selection needed)
+- Streamlined workflow for faster demos
 
 Select any prospect ID (or type 'random') and channels to see **elite-quality output**.
 
-### Full Production Mode
-
-```bash
-python main.py
-```
-
-For live scraping with real prospect data.
-
 ## First Run Walkthrough
 
-### 1. Welcome Screen
-- Review the banner and prerequisites information.
-- Press Enter to continue.
+### 1. Welcome Screen (Rich Banner)
+- Beautiful cyan banner with project info
+- Color-coded prerequisite checks (✓ green for success)
+- Press Enter to continue
 
-### 2. Client Setup
-- Choose to create a new client or use an existing one.
-- A unique client ID will be generated.
+### 2. Client Setup (Rich Panel)
+- Create new client or select existing
+- Unique client ID generated automatically
+- Visual confirmation with colors
+
+### 3. Prospect Selection (No Configuration Needed!)
+- **Model:** llama3 (auto-selected)
+- **Language:** English (auto-selected)
+- Choose prospect from list of 10 test prospects
+- Or type 'random' for surprise selection
 
 ### 3. LLM Configuration
 - The system will verify that Ollama is running.
