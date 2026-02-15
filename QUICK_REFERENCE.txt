@@ -1,18 +1,28 @@
 ╔══════════════════════════════════════════════════════════════════════╗
 ║                    CORTEXREACH - QUICK REFERENCE                     ║
-║                         Fake Data Mode                               ║
+║                   Fake Data Mode + Rich TUI                          ║
 ╚══════════════════════════════════════════════════════════════════════╝
 
 ┌──────────────────────────────────────────────────────────────────────┐
 │ GETTING STARTED                                                      │
 └──────────────────────────────────────────────────────────────────────┘
 
-1. Run:     python main_enhanced.py
-2. Choose:  1 (Fake Data Mode)
-3. Select:  Prospect ID or 'random'
-4. Pick:    Output channels
-5. Review:  Generated content
-6. Save:    Results to client folder
+1. Setup:   ollama pull llama3
+2. Install: pip install -r requirements.txt
+3. Run:     python main_enhanced.py
+4. Select:  Prospect ID or 'random'
+5. Pick:    Output channels
+6. Enjoy:   Beautiful Rich TUI with color-coded output!
+7. Save:    Results to client folder
+
+✨ NEW FEATURES:
+   • Beautiful terminal UI with Rich library
+   • Color-coded workflow steps (1/8, 2/8, etc.)
+   • Progress bars with spinners
+   • Elegant tables for hooks
+   • Auto-configured (llama3 + English)
+   • No live scraping (fake data only)
+   • No engagement scoring (removed)
 
 ┌──────────────────────────────────────────────────────────────────────┐
 │ AVAILABLE PROSPECTS                                                  │
@@ -63,17 +73,19 @@ QuantumTech Labs    research_001 (Emily) + research_002 (Michael)
 → Run same company prospects sequentially to test context reuse!
 
 ┌──────────────────────────────────────────────────────────────────────┐
-│ OUTPUT CHANNELS (Elite Quality)                                      │
+│ OUTPUT CHANNELS (Elite Quality + Emoji Rules)                      │
 └──────────────────────────────────────────────────────────────────────┘
 
-1. Email            150-200 words • Sharp insider tone
-2. WhatsApp         300-400 chars • Confident conversational
-3. SMS              Max 160 chars • Pattern interrupt
-4. LinkedIn DM      200-250 words • Business-focused
-5. Instagram DM     150-200 words • Confident casual
+1. Email            150-200 words • Sharp insider tone • NO emojis
+2. WhatsApp         300-400 chars • Confident conversational • 1-2 emojis OK
+3. SMS              Max 160 chars • Pattern interrupt • 1-2 emojis OK
+4. LinkedIn DM      200-250 words • Business-focused • NO emojis
+5. Instagram DM     150-200 words • Confident casual • 2-3 emojis OK
 
 ✓ High-signal hooks only (business relevance)
 ✓ No inferred pain points (data-supported or curiosity-driven)
+✓ Enhanced cleanup (removes meta-commentary, placeholders)
+✓ ICP filtering (warns product-persona mismatch)
 ✓ Spam trigger avoidance (deliverability protection)
 ✓ Persona-adaptive pattern interrupts
 
@@ -92,62 +104,74 @@ TEST COMPANY CONTEXT REUSE:
   Run 2: tech_002 (Marcus) → See natural reference to Sarah!
 
 TEST ALL CHANNELS:
-  python main_enhanced.py → 1 → random → 1,2,3,4,5
+  python main_enhanced.py → random → 1,2,3,4,5
 
 TEST FOUNDER WITH GITHUB:
-  python main_enhanced.py → 1 → founder_002 → 1,4
+  python main_enhanced.py → founder_002 → 1,4
+
+TEST RICH TUI FEATURES:
+  python main_enhanced.py → random → See beautiful tables, progress bars!
 
 ┌──────────────────────────────────────────────────────────────────────┐
 │ COMMANDS                                                             │
 └──────────────────────────────────────────────────────────────────────┘
 
-Run main (enhanced):      python main_enhanced.py
-Run main (original):      python main.py
+Run main (Rich TUI):      python main_enhanced.py
 Test fake data:           python test_fake_data.py
 View all prospects:       python fake_data_loader.py
-Test loader:              python enhanced_prospect_loader.py
 
 ┌──────────────────────────────────────────────────────────────────────┐
 │ FEATURES COVERED                                                     │
 └──────────────────────────────────────────────────────────────────────┘
 
-✓ Multi-source data      LinkedIn + Website + X + GitHub
-✓ Persona analysis       Technical, executive, casual, formal styles
-✓ Engagement scoring     0-100 based on data quality
-✓ Hook extraction        Personalization opportunities
-✓ Company context        Reuse insights from same company
-✓ Natural referencing    Mention past contacts
-✓ Multi-channel          5 different output formats
-✓ Privacy validation     No sensitive data leaks
-✓ Ethics checking        No manipulative language
-✓ Content regeneration   Modify with natural language
+✓ Rich TUI              Beautiful terminal with color-coded output
+✓ Fake data             10 comprehensive test prospects
+✓ Persona analysis      Technical, executive, casual, formal styles
+✓ Hook extraction       Visual table display of personalization hooks
+✓ Company context       Reuse insights from same company
+✓ Natural referencing   Mention past contacts
+✓ Multi-channel         5 different output formats with emoji rules
+✓ ICP filtering         Warns when product-persona mismatch
+✓ Enhanced cleanup      Removes meta-commentary and placeholders
+✓ Privacy validation    No sensitive data leaks
+✓ Ethics checking       No manipulative language
+✓ Content regeneration  Modify with natural language
+✓ Auto-configuration    llama3 + English (no prompts)
 
 ┌──────────────────────────────────────────────────────────────────────┐
 │ TIPS                                                                 │
 └──────────────────────────────────────────────────────────────────────┘
 
 → Type 'random' to get a random prospect
-→ Start with fake data, switch to live for production
 → Test company context by running same-company prospects
 → Use different personas to test different code paths
 → Save results to build client history
+→ Use venv: .\venv\Scripts\Activate.ps1 (Windows)
+→ Rich TUI requires: pip install -r requirements.txt
+→ Watch beautiful progress bars during generation!
 
 ┌──────────────────────────────────────────────────────────────────────┐
 │ FILE LOCATIONS                                                       │
 └──────────────────────────────────────────────────────────────────────┘
 
+Main entry (Rich TUI):    main_enhanced.py
+Workflow orchestrator:    enhanced_runner.py
+Prospect loader:          enhanced_prospect_loader.py
 Fake prospect data:       fake_data_loader.py
-Enhanced input:           enhanced_prospect_loader.py
-Enhanced runner:          enhanced_runner.py
+Rich UI utilities:        layers/visualization_layer/console_manager.py
 Test suite:              test_fake_data.py
-Documentation:           FAKE_DATA_DOCS.md
+Documentation:           README.md, QUICKSTART.md, FAKE_DATA_DOCS.md
 This reference:          QUICK_REFERENCE.txt
 
 ┌──────────────────────────────────────────────────────────────────────┐
 │ TROUBLESHOOTING                                                      │
 └──────────────────────────────────────────────────────────────────────┘
 
-"Prospect ID not found"    → Use exact ID: tech_001 (lowercase)
+"Prospect ID not found"           → Use exact ID: tech_001 (lowercase)
+"Module 'rich' not found"         → pip install -r requirements.txt
+"Wrong venv (omanu)"              → Use: .\venv\Scripts\Activate.ps1
+"Ollama connection error"         → Start Ollama, check localhost:11434
+"No color output"                 → Rich installed? Check venv is active
 "Import error"             → Check all files in same directory
 "Ollama not running"       → Install/start Ollama: https://ollama.ai
 "Module not found"         → pip install -r requirements.txt

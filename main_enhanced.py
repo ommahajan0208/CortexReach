@@ -1,6 +1,6 @@
 """
 CortexReach - Enhanced Main Entry Point
-Supports both fake data (for testing) and live scraping (for production)
+Fake data mode only - 10 comprehensive test prospects with Rich TUI
 """
 
 import os

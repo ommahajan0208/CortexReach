@@ -1,4 +1,4 @@
-CortexReach - Enhanced Architecture with Fake Data Support
+CortexReach - Enhanced Architecture (Fake Data Only + Rich TUI)
 ═══════════════════════════════════════════════════════════════════════
 
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -8,48 +8,53 @@ CortexReach - Enhanced Architecture with Fake Data Support
                                   ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        main_enhanced.py                             │
-│  • Welcome banner                                                   │
-│  • Prerequisites check                                              │
+│  • Beautiful Rich TUI banner (cyan)                                 │
+│  • Color-coded prerequisites check                                  │
 │  • Optional quick help                                              │
 └─────────────────────────────────────────────────────────────────────┘
                                   │
                                   ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │                      enhanced_runner.py                             │
+│                      (Rich TUI Orchestrator)                        │
 │                                                                     │
-│  STEP 1: Client Management                                          │
-│  STEP 2: LLM Configuration                                          │
+│  STEP 1: Client Management (Rich Panel)                             │
+│  STEP 2: LLM Configuration (Auto: llama3 + English)                 │
 │  STEP 3: Input Collection ◄─────────────┐                          │
 └─────────────────────────────────────────┼───────────────────────────┘
                                           │
                     ┌─────────────────────┴────────────────────┐
-                    │  enhanced_prospect_loader.py             │
+                    │  (Fake Data Only)                        │
                     │                                          │
                     │  ┌──────────────────────────────────┐   │
-                    │  │  Choose Data Mode:               │   │
-                    │  │  1. Fake Data                    │   │
-                    │  │  2. Live Scraping                │   │
+                    │  │  Select Prospect:                │   │
+                    │  │  • tech_001 - tech_003           │   │
+                    │  │  • exec_001 - exec_002           │   │
+                    │  │  • founder_001 - founder_003     │   │
+                    │  │  • research_001 - research_002   │   │
+                    │  │  • or 'random'                   │   │
                     │  └──────────────────────────────────┘   │
-                    │          │                  │            │
-                    │          ▼                  ▼            │
-                    │  ┌─────────────┐    ┌─────────────┐     │
-                    │  │ Fake Data   │    │ Live Data   │     │
-                    │  │ Mode        │    │ Mode        │     │
+                    │          │                               │
+                    │          ▼                               │
+                    │  ┌─────────────┐                        │
+                    │  │ Fake Data   │                        │
+                    │  │ Mode Only   │                        │
+                    │  └─────────────┘                        │
                     │  └─────────────┘    └─────────────┘     │
-                    └─────┬────────────────────┬───────────────┘
-                          │                    │
-            ┌─────────────┴────────┐          │
-            ▼                      │          ▼
-┌───────────────────────┐         │  ┌──────────────────────┐
-│ fake_data_loader.py   │         │  │ Live Scrapers:       │
-│                       │         │  │  • linkedin_scraper  │
-│ 10 Fake Prospects:    │         │  │  • website_scraper   │
-│                       │         │  │  • x_scraper         │
-│ tech_001  (Sarah)     │         │  │  • github_scraper    │
-│ tech_002  (Marcus)    │         │  │                      │
-│ tech_003  (Priya)     │         │  │ Merge Data:          │
-│ exec_001  (David)     │         │  │  • prospect_loader   │
-│ exec_002  (Lisa)      │         │  └──────────────────────┘
+                    └─────┬────────────────────────────────────┘
+                          │
+            ┌─────────────┴────────┐
+            ▼                      │
+┌───────────────────────┐         │
+│ fake_data_loader.py   │         │
+│                       │         │
+│ 10 Fake Prospects:    │         │
+│                       │         │
+│ tech_001  (Sarah)     │         │
+│ tech_002  (Marcus)    │         │
+│ tech_003  (Priya)     │         │
+│ exec_001  (David)     │         │
+│ exec_002  (Lisa)      │         │
 │ founder_001 (Alex)    │         │
 │ founder_002 (James)   │         │
 │ founder_003 (Nina)    │         │
@@ -63,15 +68,15 @@ CortexReach - Enhanced Architecture with Fake Data Support
             ┌─────────────────────┐
             │  Prospect Data      │
             │  (Unified Format)   │
+            │  + Rich Card Display│
             └─────────────────────┘
                       │
                       ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │  STEP 4: Data Collection Complete                                   │
-│  STEP 5: Analysis Layer                                             │
-│    • persona_analyzer    (Communication style)                      │
-│    • engagement_scorer   (0-100 score)                              │
-│    • hook_extractor      (Personalization opportunities)            │
+│  STEP 5: Analysis Layer (Rich UI)                                   │
+│    • persona_analyzer    (Communication style + Rich display)       │
+│    • hook_extractor      (Visual table display with borders)        │
 └─────────────────────────────────────────────────────────────────────┘
                       │
                       ▼
@@ -85,15 +90,20 @@ CortexReach - Enhanced Architecture with Fake Data Support
                       ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │  STEP 7: Generation & Optimization Layer                            │
-│    For each channel:                                                │
+│    For each channel:                     (Progress Bars!)           │
+│    For each channel (with spinner):                                 │
 │      1. llm_interface.generate_for_channel()                        │
+│         • ICP filtering (warns product-persona mismatch)            │
+│         • Enhanced cleanup (meta-commentary, placeholders)          │
 │      2. critic_optimizer.apply_critic_pass()                        │
 │                                                                     │
-│    Channels: Email, WhatsApp, SMS, LinkedIn, Instagram              │
-└─────────────────────────────────────────────────────────────────────┘
-                      │
-                      ▼
-┌─────────────────────────────────────────────────────────────────────┐
+│    Channels: Email (no emoji), WhatsApp/SMS/Instagram (emoji OK),   │
+│              LinkedIn (no emoji)                      ──────────────┘
+                      │(Rich Display)                            │
+│    • privacy_checker     (No sensitive data leaks)                  │
+│    • ethics_validator    (No manipulative language)                 │
+│    • print_channel_output (Beautiful panels with emojis)            │
+│    • print_validation_result (Color-coded ✓/✗)     ─────────────────┐
 │  STEP 8: Validation Layer                                           │
 │    • privacy_checker     (No sensitive data leaks)                  │
 │    • ethics_validator    (No manipulative language)                 │

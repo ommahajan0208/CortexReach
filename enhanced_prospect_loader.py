@@ -1,6 +1,6 @@
 """
-Enhanced Prospect Loader - Fake data mode for testing
-Integrates fake_data_loader for comprehensive testing
+Enhanced Prospect Loader - Fake data mode only
+Integrates fake_data_loader for comprehensive testing and demonstrations
 """
 
 from layers.input_layer.prospect_loader import (
