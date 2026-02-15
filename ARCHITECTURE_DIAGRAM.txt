@@ -1,0 +1,203 @@
+CortexReach - Enhanced Architecture with Fake Data Support
+═══════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                          USER STARTS                                │
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                        main_enhanced.py                             │
+│  • Welcome banner                                                   │
+│  • Prerequisites check                                              │
+│  • Optional quick help                                              │
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                      enhanced_runner.py                             │
+│                                                                     │
+│  STEP 1: Client Management                                          │
+│  STEP 2: LLM Configuration                                          │
+│  STEP 3: Input Collection ◄─────────────┐                          │
+└─────────────────────────────────────────┼───────────────────────────┘
+                                          │
+                    ┌─────────────────────┴────────────────────┐
+                    │  enhanced_prospect_loader.py             │
+                    │                                          │
+                    │  ┌──────────────────────────────────┐   │
+                    │  │  Choose Data Mode:               │   │
+                    │  │  1. Fake Data                    │   │
+                    │  │  2. Live Scraping                │   │
+                    │  └──────────────────────────────────┘   │
+                    │          │                  │            │
+                    │          ▼                  ▼            │
+                    │  ┌─────────────┐    ┌─────────────┐     │
+                    │  │ Fake Data   │    │ Live Data   │     │
+                    │  │ Mode        │    │ Mode        │     │
+                    │  └─────────────┘    └─────────────┘     │
+                    └─────┬────────────────────┬───────────────┘
+                          │                    │
+            ┌─────────────┴────────┐          │
+            ▼                      │          ▼
+┌───────────────────────┐         │  ┌──────────────────────┐
+│ fake_data_loader.py   │         │  │ Live Scrapers:       │
+│                       │         │  │  • linkedin_scraper  │
+│ 10 Fake Prospects:    │         │  │  • website_scraper   │
+│                       │         │  │  • x_scraper         │
+│ tech_001  (Sarah)     │         │  │  • github_scraper    │
+│ tech_002  (Marcus)    │         │  │                      │
+│ tech_003  (Priya)     │         │  │ Merge Data:          │
+│ exec_001  (David)     │         │  │  • prospect_loader   │
+│ exec_002  (Lisa)      │         │  └──────────────────────┘
+│ founder_001 (Alex)    │         │
+│ founder_002 (James)   │         │
+│ founder_003 (Nina)    │         │
+│ research_001 (Emily)  │         │
+│ research_002 (Michael)│         │
+└───────────────────────┘         │
+            │                     │
+            └─────────────────────┘
+                      │
+                      ▼
+            ┌─────────────────────┐
+            │  Prospect Data      │
+            │  (Unified Format)   │
+            └─────────────────────┘
+                      │
+                      ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  STEP 4: Data Collection Complete                                   │
+│  STEP 5: Analysis Layer                                             │
+│    • persona_analyzer    (Communication style)                      │
+│    • engagement_scorer   (0-100 score)                              │
+│    • hook_extractor      (Personalization opportunities)            │
+└─────────────────────────────────────────────────────────────────────┘
+                      │
+                      ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  STEP 6: Context & Learning Layer                                   │
+│    • company_matcher     (Find same-company prospects)              │
+│    • insight_reuser      (Reuse company knowledge)                  │
+│    • reference_builder   (Natural references)                       │
+└─────────────────────────────────────────────────────────────────────┘
+                      │
+                      ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  STEP 7: Generation & Optimization Layer                            │
+│    For each channel:                                                │
+│      1. llm_interface.generate_for_channel()                        │
+│      2. critic_optimizer.apply_critic_pass()                        │
+│                                                                     │
+│    Channels: Email, WhatsApp, SMS, LinkedIn, Instagram              │
+└─────────────────────────────────────────────────────────────────────┘
+                      │
+                      ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  STEP 8: Validation Layer                                           │
+│    • privacy_checker     (No sensitive data leaks)                  │
+│    • ethics_validator    (No manipulative language)                 │
+└─────────────────────────────────────────────────────────────────────┘
+                      │
+                      ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  Display Results                                                    │
+│                                                                     │
+│  User Options:                                                      │
+│    1. Regenerate specific channel (regenerator.py)                  │
+│    2. Save and finish (json_storage.py)                             │
+│    3. Exit without saving                                           │
+└─────────────────────────────────────────────────────────────────────┘
+                      │
+                      ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  Storage Layer                                                      │
+│    • Save prospect data                                             │
+│    • Save company insights (for future reuse)                       │
+│    • Location: data/{client_id}/                                    │
+└─────────────────────────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════
+KEY DIFFERENCE: FAKE vs LIVE DATA
+═══════════════════════════════════════════════════════════════════════
+
+FAKE DATA PATH:
+  User → main_enhanced.py → enhanced_runner → enhanced_prospect_loader
+       → Choose "1" (Fake)
+       → fake_data_loader → Select prospect_id
+       → Get pre-loaded data (instant!)
+       → Continue to analysis layer
+
+LIVE DATA PATH:
+  User → main_enhanced.py → enhanced_runner → enhanced_prospect_loader
+       → Choose "2" (Live)
+       → Provide URLs
+       → Scrape from web (10-30 seconds)
+       → Merge data
+       → Continue to analysis layer
+
+After this point, both paths are IDENTICAL!
+
+
+═══════════════════════════════════════════════════════════════════════
+COMPANY CONTEXT REUSE FLOW
+═══════════════════════════════════════════════════════════════════════
+
+Example: TechCorp AI (2 prospects)
+
+RUN 1 - tech_001 (Sarah Chen):
+  ┌───────────────────────────────────┐
+  │ 1. Scrape/Load Sarah's data       │
+  │ 2. No previous TechCorp prospects │
+  │ 3. Generate fresh content         │
+  │ 4. Save company insights:         │
+  │    - Industry: AI                 │
+  │    - Tech stack: Python, K8s      │
+  │    - Description: Enterprise AI   │
+  └───────────────────────────────────┘
+
+RUN 2 - tech_002 (Marcus Johnson):
+  ┌───────────────────────────────────┐
+  │ 1. Scrape/Load Marcus's data      │
+  │ 2. Find previous TechCorp:        │
+  │    ✓ Sarah Chen exists!           │
+  │ 3. Reuse company insights         │
+  │ 4. Build reference:               │
+  │    "We recently connected with    │
+  │     Sarah Chen at TechCorp..."    │
+  │ 5. Generate enriched content      │
+  └───────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════
+FILE RELATIONSHIPS
+═══════════════════════════════════════════════════════════════════════
+
+main_enhanced.py
+  ↓ imports
+enhanced_runner.py
+  ↓ imports
+enhanced_prospect_loader.py
+  ↓ imports          ↓ imports
+fake_data_loader.py  layers/input_layer/prospect_loader.py
+                     layers/input_layer/*_scraper.py
+
+
+═══════════════════════════════════════════════════════════════════════
+TESTING WORKFLOW
+═══════════════════════════════════════════════════════════════════════
+
+test_fake_data.py
+  ↓ tests
+fake_data_loader.py
+  ↓ verifies
+- All 10 prospects load
+- Company grouping works
+- Data richness adequate
+- Persona diversity sufficient
+  ↓ results
+✓✓✓ ALL TESTS PASSED ✓✓✓
+
+
+═══════════════════════════════════════════════════════════════════════

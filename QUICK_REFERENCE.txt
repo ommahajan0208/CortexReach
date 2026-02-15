@@ -1,0 +1,154 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║                    CORTEXREACH - QUICK REFERENCE                     ║
+║                         Fake Data Mode                               ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ GETTING STARTED                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+
+1. Run:     python main_enhanced.py
+2. Choose:  1 (Fake Data Mode)
+3. Select:  Prospect ID or 'random'
+4. Pick:    Output channels
+5. Review:  Generated content
+6. Save:    Results to client folder
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ AVAILABLE PROSPECTS                                                  │
+└──────────────────────────────────────────────────────────────────────┘
+
+TECHNICAL PERSONAS:
+  tech_001    Sarah Chen       Senior SWE @ TechCorp AI
+              • Python, K8s, TensorFlow • 847 GitHub stars
+  
+  tech_002    Marcus Johnson   Lead Backend @ TechCorp AI [SAME CO.]
+              • Node.js, GraphQL, APIs • 512 GitHub stars
+  
+  tech_003    Priya Sharma     DevOps @ CloudScale Systems
+              • Terraform, AWS, IaC • 1234 GitHub stars
+
+EXECUTIVE PERSONAS:
+  exec_001    David Thompson   VP Engineering @ FinTech Innovations
+              • 85 person team • HBR author • No GitHub
+  
+  exec_002    Lisa Martinez    CTO @ HealthTech Solutions
+              • Series C ($50M) • Forbes 40 under 40
+
+FOUNDER PERSONAS:
+  founder_001 Alex Rivera      CEO @ EcoTrack
+              • Y Combinator W23 • Climate tech • $3M seed
+  
+  founder_002 James Kim        CTO @ EcoTrack [SAME CO.]
+              • Ex-Stripe • MIT • 423 GitHub contributions/year
+  
+  founder_003 Nina Patel       CEO @ EduAI
+              • EdTech • 100K students • $8M Series A (a16z)
+
+RESEARCHER PERSONAS:
+  research_001 Dr. Emily Watson    Research Scientist @ QuantumTech
+               • Stanford PhD • Nature publications • Quantum ML
+  
+  research_002 Dr. Michael Chang   Research Engineer @ QuantumTech [SAME CO.]
+               • MIT PhD • Quantum compilers • 278 contributions
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ COMPANY GROUPING (Tests Context Reuse)                               │
+└──────────────────────────────────────────────────────────────────────┘
+
+TechCorp AI         tech_001 (Sarah) + tech_002 (Marcus)
+EcoTrack            founder_001 (Alex) + founder_002 (James)
+QuantumTech Labs    research_001 (Emily) + research_002 (Michael)
+
+→ Run same company prospects sequentially to test context reuse!
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ OUTPUT CHANNELS                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+
+1. Email            150-200 words • Professional
+2. WhatsApp         300-400 chars • Conversational
+3. SMS              Max 160 chars • Ultra-short
+4. LinkedIn DM      200-250 words • Professional-casual
+5. Instagram DM     150-200 words • Casual, friendly
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ TESTING SCENARIOS                                                    │
+└──────────────────────────────────────────────────────────────────────┘
+
+TEST TECHNICAL PERSONA:
+  python main_enhanced.py → 1 → tech_001 → 1,2,4
+
+TEST EXECUTIVE PERSONA:
+  python main_enhanced.py → 1 → exec_001 → 1,4
+
+TEST COMPANY CONTEXT REUSE:
+  Run 1: tech_001 (Sarah) → Save
+  Run 2: tech_002 (Marcus) → See natural reference to Sarah!
+
+TEST ALL CHANNELS:
+  python main_enhanced.py → 1 → random → 1,2,3,4,5
+
+TEST FOUNDER WITH GITHUB:
+  python main_enhanced.py → 1 → founder_002 → 1,4
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ COMMANDS                                                             │
+└──────────────────────────────────────────────────────────────────────┘
+
+Run main (enhanced):      python main_enhanced.py
+Run main (original):      python main.py
+Test fake data:           python test_fake_data.py
+View all prospects:       python fake_data_loader.py
+Test loader:              python enhanced_prospect_loader.py
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ FEATURES COVERED                                                     │
+└──────────────────────────────────────────────────────────────────────┘
+
+✓ Multi-source data      LinkedIn + Website + X + GitHub
+✓ Persona analysis       Technical, executive, casual, formal styles
+✓ Engagement scoring     0-100 based on data quality
+✓ Hook extraction        Personalization opportunities
+✓ Company context        Reuse insights from same company
+✓ Natural referencing    Mention past contacts
+✓ Multi-channel          5 different output formats
+✓ Privacy validation     No sensitive data leaks
+✓ Ethics checking        No manipulative language
+✓ Content regeneration   Modify with natural language
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ TIPS                                                                 │
+└──────────────────────────────────────────────────────────────────────┘
+
+→ Type 'random' to get a random prospect
+→ Start with fake data, switch to live for production
+→ Test company context by running same-company prospects
+→ Use different personas to test different code paths
+→ Save results to build client history
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ FILE LOCATIONS                                                       │
+└──────────────────────────────────────────────────────────────────────┘
+
+Fake prospect data:       fake_data_loader.py
+Enhanced input:           enhanced_prospect_loader.py
+Enhanced runner:          enhanced_runner.py
+Test suite:              test_fake_data.py
+Documentation:           FAKE_DATA_DOCS.md
+This reference:          QUICK_REFERENCE.txt
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ TROUBLESHOOTING                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+
+"Prospect ID not found"    → Use exact ID: tech_001 (lowercase)
+"Import error"             → Check all files in same directory
+"Ollama not running"       → Install/start Ollama: https://ollama.ai
+"Module not found"         → pip install -r requirements.txt
+
+╔══════════════════════════════════════════════════════════════════════╗
+║  For help: python main_enhanced.py → y (detailed help)               ║
+║  For tests: python test_fake_data.py                                 ║
+║  For docs: See FAKE_DATA_DOCS.md                                     ║
+╚══════════════════════════════════════════════════════════════════════╝
