@@ -93,6 +93,10 @@ PERSONALIZATION STRATEGY:
 - Show how the product solves THEIR specific pain points (only if data supports it)
 - If no clear pain point: use curiosity-driven or insight-led messaging
 - Keep it authentic and conversational
+- IF PROSPECT ROLE DOESN'T MATCH PRODUCT (e.g., engineer for sales tool):
+  * Focus on HOW they might indirectly benefit (e.g., recruiting, partnerships)
+  * OR acknowledge the mismatch and suggest relevant use cases
+  * Don't force a connection that doesn't exist naturally
 
 DELIVERABILITY PROTECTION:
 Avoid spam trigger phrases:
@@ -153,6 +157,7 @@ REQUIREMENTS:
 - NO formal language or marketing speak
 - Get to the point fast
 - Feel like a message from a real person who knows their industry
+- IF prospect role doesn't match product audience, find a creative angle or skip the pitch
 
 CRITICAL RULES:
 1. ONLY use real details from PROSPECT DATA
@@ -191,10 +196,11 @@ REQUIREMENTS:
 - Style: Ultra-concise and punchy
 - Length: Maximum 160 characters (strict!)
 - Must include one personalized element from prospect data
-- Include a clear CTA
+- Include a clear CTA (e.g., "Interested?", "Quick chat?", "Worth a look?")
 - NO fluff or filler words
 - Every word counts
-- Use ONLY real details, no placeholders
+- Use ONLY real details, no placeholders like [link] or [CTA]
+- NO brackets or placeholder text - write complete message
 
 Language: {language}
 
@@ -202,7 +208,8 @@ OUTPUT FORMAT (CRITICAL):
 - Start DIRECTLY with the SMS message
 - NO introductory phrases
 - NO explanations or notes
-- Just the text message itself (max 160 chars)
+- NO placeholders in brackets like [link] or [CTA]
+- Just the complete text message (max 160 chars)
 
 Generate ONLY the SMS text:"""
 
@@ -228,6 +235,10 @@ REQUIREMENTS:
 - Length: 200-250 words
 - Reference their actual LinkedIn activity/posts if available
 - Show you're in the same professional community
+- Build credibility before mentioning product
+- Tone: Confident peer, not salesperson
+- IF prospect role doesn't naturally fit product, find indirect value or acknowledge it
+- Avoid spam triggers and promotional language
 - Insight-focused, not pitchy
 - Professional but confident (avoid being overly polite)
 - Pattern interrupt opening for technical personas

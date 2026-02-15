@@ -16,20 +16,28 @@ def clean_llm_output(content):
     Returns:
         str: cleaned content
     """
-    # Remove common introductory phrases
+    # Remove common introductory phrases (more comprehensive patterns)
     intro_patterns = [
-        r"^Here'?s?\s+(the\s+)?(rewritten\s+|updated\s+|improved\s+)?\w+:?\s*\n*",
-        r"^Here\s+is\s+(the\s+)?(rewritten\s+|updated\s+|improved\s+)?\w+:?\s*\n*",
+        r"^Here'?s?\s+(the\s+)?(rewritten\s+|updated\s+|improved\s+)?.*?:?\s*\n*",
+        r"^Here\s+is\s+(the\s+)?(rewritten\s+|updated\s+|improved\s+)?.*?:?\s*\n*",
         r"^I've\s+rewritten.*?:?\s*\n*",
-        r"^I\s+removed.*?:?\s*\n*"
+        r"^I\s+removed.*?:?\s*\n*",
+        r"^the\s+rewritten\s+.*?:?\s*\n+",
+        r"^rewritten\s+.*?:?\s*\n+"
     ]
     
     for pattern in intro_patterns:
         content = re.sub(pattern, "", content, flags=re.IGNORECASE | re.MULTILINE)
     
-    # Remove markdown bold from Subject line
+    # Remove markdown bold from Subject line and other formatting
     content = re.sub(r'\*\*Subject:\*\*', 'Subject:', content)
     content = re.sub(r'\*\*Body:\*\*', '', content)
+    
+    # Remove placeholder text in brackets (e.g., [CTA link], [Your Name], [link])
+    content = re.sub(r'\[CTA link\]', 'Reply?', content, flags=re.IGNORECASE)
+    content = re.sub(r'\[link\]', '', content, flags=re.IGNORECASE)
+    content = re.sub(r'\[Your Name\]', '', content, flags=re.IGNORECASE)
+    content = re.sub(r'\[.*?\]', '', content)  # Remove any remaining bracketed placeholders
     
     # Remove trailing explanations (paragraphs starting with common meta-phrases)
     lines = content.split('\n')
@@ -112,6 +120,41 @@ def generate_with_ollama(prompt, config, max_tokens):
         raise Exception(f"Error generating with LLM: {str(e)}")
 
 
+def check_prospect_product_fit(prospect_data, product_info):
+    """
+    Check if prospect matches product target audience and warn if mismatch
+    
+    Args:
+        prospect_data: dict
+        product_info: dict
+    
+    Returns:
+        dict: {'match': bool, 'warning': str or None}
+    """
+    role = prospect_data.get('role', '').lower()
+    bio = prospect_data.get('bio', '').lower()
+    
+    # CortexReach target personas (sales/marketing/recruiting)
+    target_keywords = ['sales', 'marketing', 'founder', 'ceo', 'cto', 'recruiter', 
+                      'business development', 'growth', 'partnerships', 'investor']
+    
+    # Technical/non-sales personas (likely poor fit)
+    non_target_keywords = ['engineer', 'developer', 'devops', 'backend', 'frontend',
+                          'data scientist', 'researcher', 'analyst']
+    
+    # Check if prospect matches target audience
+    is_target = any(keyword in role or keyword in bio for keyword in target_keywords)
+    is_non_target = any(keyword in role or keyword in bio for keyword in non_target_keywords)
+    
+    if is_non_target and not is_target:
+        return {
+            'match': False,
+            'warning': f"⚠️  WARNING: {prospect_data.get('role', 'This prospect')} may not match target audience (sales/marketing/recruiting professionals). Message relevance may be low."
+        }
+    
+    return {'match': True, 'warning': None}
+
+
 def generate_for_channel(prospect_data, persona, hooks, company_context, reference, 
                         channel, config):
     """
@@ -135,6 +178,18 @@ def generate_for_channel(prospect_data, persona, hooks, company_context, referen
     
     print(f"\n[GENERATION] Generating {channel.upper()} content...")
     
+    # Check product-prospect fit and warn if mismatch
+    product_info = get_default_product_info()
+    fit_check = check_prospect_product_fit(prospect_data, product_info)
+    if not fit_check['match']:
+        print(fit_check['warning'])
+    
+    # Check product-prospect fit and warn if mismatch
+    product_info = get_default_product_info()
+    fit_check = check_prospect_product_fit(prospect_data, product_info)
+    if not fit_check['match']:
+        print(fit_check['warning'])
+    
     # Get channel-specific prompt
     prompt_template = get_channel_prompt(channel)
     
@@ -145,8 +200,7 @@ def generate_for_channel(prospect_data, persona, hooks, company_context, referen
     company_summary = format_company_context_for_prompt(company_context)
     reference_text = format_reference_for_prompt(reference)
     
-    # Get product info (silently use CortexReach default)
-    product_info = get_default_product_info()
+    # Format product info
     product_summary = format_product_for_prompt(product_info)
     
     # Build final prompt

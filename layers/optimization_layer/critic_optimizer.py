@@ -150,20 +150,28 @@ def clean_llm_output(content):
     """
     import re
     
-    # Remove common introductory phrases
+    # Remove common introductory phrases (more comprehensive patterns)
     intro_patterns = [
-        r"^Here'?s?\s+(the\s+)?(rewritten\s+|updated\s+|improved\s+)?\w+:?\s*\n*",
-        r"^Here\s+is\s+(the\s+)?(rewritten\s+|updated\s+|improved\s+)?\w+:?\s*\n*",
+        r"^Here'?s?\s+(the\s+)?(rewritten\s+|updated\s+|improved\s+)?.*?:?\s*\n*",
+        r"^Here\s+is\s+(the\s+)?(rewritten\s+|updated\s+|improved\s+)?.*?:?\s*\n*",
         r"^I've\s+rewritten.*?:?\s*\n*",
-        r"^I\s+removed.*?:?\s*\n*"
+        r"^I\s+removed.*?:?\s*\n*",
+        r"^the\s+rewritten\s+.*?:?\s*\n+",
+        r"^rewritten\s+.*?:?\s*\n+"
     ]
     
     for pattern in intro_patterns:
         content = re.sub(pattern, "", content, flags=re.IGNORECASE | re.MULTILINE)
     
-    # Remove markdown bold from Subject line
+    # Remove markdown bold from Subject line and other formatting
     content = re.sub(r'\*\*Subject:\*\*', 'Subject:', content)
     content = re.sub(r'\*\*Body:\*\*', '', content)
+    
+    # Remove placeholder text in brackets (e.g., [CTA link], [Your Name], [link])
+    content = re.sub(r'\[CTA link\]', 'Reply?', content, flags=re.IGNORECASE)
+    content = re.sub(r'\[link\]', '', content, flags=re.IGNORECASE)
+    content = re.sub(r'\[Your Name\]', '', content, flags=re.IGNORECASE)
+    content = re.sub(r'\[.*?\]', '', content)  # Remove any remaining bracketed placeholders
     
     # Remove trailing explanations (paragraphs starting with common meta-phrases)
     lines = content.split('\n')
