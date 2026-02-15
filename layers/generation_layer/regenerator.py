@@ -3,6 +3,7 @@ Regenerator - Regenerate content with user modifications
 """
 
 from config.prompts import get_regeneration_prompt, get_channel_requirements
+from layers.generation_layer.llm_interface import clean_llm_output
 
 
 def regenerate_content(original_content, user_modifications, channel, config, llm_generate_func):
@@ -38,6 +39,10 @@ def regenerate_content(original_content, user_modifications, channel, config, ll
     # Generate
     try:
         regenerated = llm_generate_func(prompt, config)
+        
+        # Clean up any meta-commentary
+        regenerated = clean_llm_output(regenerated)
+        
         print(f"Content regenerated successfully")
         return regenerated
     except Exception as e:

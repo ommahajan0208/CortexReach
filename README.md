@@ -13,16 +13,24 @@ A terminal-based tool that generates hyper-personalized cold outreach messages a
 ### Intelligent Analysis
 - **Persona Analysis** - Understand communication style and preferences
 - **Engagement Scoring** - Predict likelihood of response (0-100)
-- **Hook Extraction** - Identify personalization opportunities
+- **Elite Hook Extraction** - High-signal business hooks (role changes, scaling, launches)
 - **Company Context** - Reuse insights from previous outreach to the same company
+- **Anti-Hallucination Protection** - No inferred pain points, data-supported only
 
-### Multi-Channel Output
-Generate unique, platform-optimized content for:
-- **Email** - Professional, structured (150-200 words)
-- **WhatsApp** - Conversational, brief (approximately 300-400 characters)
-- **SMS** - Ultra-short, concise (maximum 160 characters)
-- **LinkedIn DM** - Professional-casual (approximately 200-250 words)
-- **Instagram DM** - Casual, friendly (approximately 150-200 words)
+### Multi-Channel Output (Elite Quality)
+Generate unique, platform-optimized content with:
+- **Email** - Sharp insider tone, pattern interrupt (150-200 words)
+- **WhatsApp** - Confident conversational (approximately 300-400 characters)
+- **SMS** - Pattern interrupt, ultra-concise (maximum 160 characters)
+- **LinkedIn DM** - Business-focused professional (approximately 200-250 words)
+- **Instagram DM** - Confident casual (approximately 150-200 words)
+
+**Output Quality Features:**
+- ✓ High-signal business hooks (no hobbies/fluff)
+- ✓ Sharp positioning (insider voice, not polite)
+- ✓ No inferred pain points (data-supported or curiosity-driven)
+- ✓ Deliverability protection (spam trigger avoidance)
+- ✓ Persona-adaptive pattern interrupts
 
 ### Privacy and Ethics
 - Privacy validation to prevent sensitive data leaks
@@ -173,10 +181,12 @@ python main.py
 
 ## Differentiating Factors
 
-1. **Multi-dimensional personalization**
+1. **Elite-level personalization**
    - Goes beyond simple name/company insertion.
-   - Deep analysis of persona and context.
+   - High-signal business hook extraction (role changes, scaling, launches).
+   - Sharp insider positioning (not bland/polite).
    - Platform-specific optimization.
+   - Anti-hallucination protection (no inferred pain points).
 
 2. **Company context reuse**
    - Learns from previous outreach to the same company.

@@ -3,6 +3,64 @@ LLM Interface - Communication with offline LLM
 """
 
 import requests
+import re
+
+
+def clean_llm_output(content):
+    """
+    Remove common LLM meta-commentary that might slip through despite prompt instructions
+    
+    Args:
+        content: str - LLM output
+    
+    Returns:
+        str: cleaned content
+    """
+    # Remove common introductory phrases
+    intro_patterns = [
+        r"^Here'?s?\s+(the\s+)?(rewritten\s+|updated\s+|improved\s+)?\w+:?\s*\n*",
+        r"^Here\s+is\s+(the\s+)?(rewritten\s+|updated\s+|improved\s+)?\w+:?\s*\n*",
+        r"^I've\s+rewritten.*?:?\s*\n*",
+        r"^I\s+removed.*?:?\s*\n*"
+    ]
+    
+    for pattern in intro_patterns:
+        content = re.sub(pattern, "", content, flags=re.IGNORECASE | re.MULTILINE)
+    
+    # Remove markdown bold from Subject line
+    content = re.sub(r'\*\*Subject:\*\*', 'Subject:', content)
+    content = re.sub(r'\*\*Body:\*\*', '', content)
+    
+    # Remove trailing explanations (paragraphs starting with common meta-phrases)
+    lines = content.split('\n')
+    cleaned_lines = []
+    found_meta = False
+    
+    meta_starters = [
+        'this rewritten',
+        'this updated',
+        'i removed',
+        'i made',
+        'i changed',
+        'note:',
+        'the tone',
+        'the style'
+    ]
+    
+    for line in lines:
+        line_lower = line.strip().lower()
+        if any(line_lower.startswith(phrase) for phrase in meta_starters):
+            found_meta = True
+            break
+        if not found_meta:
+            cleaned_lines.append(line)
+    
+    content = '\n'.join(cleaned_lines).strip()
+    
+    # Remove parenthetical notes at the end
+    content = re.sub(r'\(Note:.*?\)\s*$', '', content, flags=re.IGNORECASE | re.DOTALL)
+    
+    return content
 
 
 def generate_with_llm(prompt, config, max_tokens=500):
@@ -105,6 +163,9 @@ def generate_for_channel(prospect_data, persona, hooks, company_context, referen
     # Generate
     max_tokens = get_max_tokens_for_channel(channel)
     content = generate_with_llm(prompt, config, max_tokens)
+    
+    # Clean up any meta-commentary from the LLM
+    content = clean_llm_output(content)
     
     print(f"{channel.upper()} content generated ({len(content)} chars)")
     

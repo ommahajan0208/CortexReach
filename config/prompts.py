@@ -17,19 +17,33 @@ Identify:
 
 Return a concise analysis focusing on what matters for personalized outreach."""
 
-HOOK_EXTRACTION_PROMPT = """Extract personalization hooks from this prospect data:
+HOOK_EXTRACTION_PROMPT = """Extract ONLY HIGH-SIGNAL, BUSINESS-RELEVANT personalization hooks from this prospect data.
 
 Data:
 {prospect_data}
 
-Find specific, actionable hooks such as:
-- Recent activities or posts
-- Shared interests or experiences
-- Technical expertise or tools they use
-- Company challenges or initiatives
-- Career achievements or transitions
+PRIORITIZE (extract these if present):
+- Role changes (promotions, new positions, career transitions)
+- Scaling signals (team growth, company expansion)
+- Product launches (shipped new features, released products)
+- Hiring spikes (actively recruiting, growing team)
+- Infrastructure upgrades (migrations, tech stack changes)
+- Tech stack mentions (specific tools, frameworks, platforms)
+- Performance complaints (speed issues, scaling pain points)
+- Public pain points (mentioned challenges, struggles)
+- Recent achievements with business impact (not generic awards)
 
-Return a list of the most relevant hooks for cold outreach."""
+AVOID (discard these):
+- Personal hobbies (unless directly business-relevant)
+- Generic achievements without context
+- Motivational posts or quotes
+- Generic interests (reading, traveling, etc.)
+- Social activities unrelated to work
+
+CRITICAL RULE:
+Discard hooks that cannot naturally connect to a business product or service.
+
+Return a list of the most relevant BUSINESS-FOCUSED hooks for cold outreach."""
 
 # Email generation prompt (Professional, structured, 150-200 words)
 EMAIL_PROMPT = """Generate a hyper-personalized cold email for this prospect.
@@ -49,11 +63,15 @@ PRODUCT/SERVICE INFORMATION:
 {company_context}
 
 REQUIREMENTS:
-- Style: Professional and structured
+- Style: Sharp, confident, insight-led (like an industry insider)
 - Length: 150-200 words
 - Include: Subject line + body
 - Structure: Hook -> Personalized insight -> Value proposition -> Soft CTA
-- Tone: Respectful, value-focused, not salesy
+- Tone: Write like a sharp industry insider who understands their business
+- Avoid sounding like a marketing team
+- Avoid generic SaaS language
+- Prioritize insight over politeness
+- Be confident, not apologetic
 
 CRITICAL ANTI-HALLUCINATION RULES:
 1. ONLY use details explicitly provided in PROSPECT DATA above
@@ -63,22 +81,51 @@ CRITICAL ANTI-HALLUCINATION RULES:
 5. Product info must match PRODUCT/SERVICE INFORMATION section exactly
 6. DO NOT fabricate mutual connections or events
 7. If no specific detail exists, use broader but honest language
+8. DO NOT infer pain points unless directly supported by data
+9. If no pain point exists, use curiosity-driven messaging instead
+10. Never assume struggles, challenges, or problems not explicitly mentioned
 
 PERSONALIZATION STRATEGY:
-- Start with their most relevant achievement or activity from hooks
+- Open with something that stops scanning behavior (pattern interrupt)
+- Avoid generic openings like "Hope you're well" or "Came across your profile"
+- Start with their most relevant BUSINESS achievement or activity from hooks
 - Connect their actual skills/projects to the product naturally
-- Show how the product solves THEIR specific pain points
+- Show how the product solves THEIR specific pain points (only if data supports it)
+- If no clear pain point: use curiosity-driven or insight-led messaging
 - Keep it authentic and conversational
+
+DELIVERABILITY PROTECTION:
+Avoid spam trigger phrases:
+- revolutionize, cutting edge, guaranteed, limited time, exclusive offer, act now
+- game-changer, breakthrough, innovative solution, transform your business
+- best in class, world-class, industry-leading, award-winning
+Use natural sentence variation and avoid overly promotional language.
 
 {reference}
 
 Language: {language}
 
-Format:
-SUBJECT: [subject line]
+OUTPUT FORMAT (CRITICAL):
+- Start DIRECTLY with "Subject:" (no markdown, no bold)
+- Then blank line
+- Then email body
+- NO introductory phrases like "Here's the email" or "Here is..."
+- NO explanatory notes about what you did
+- NO meta-commentary about tone or changes
+- NO closing statements
+- Just the email itself, nothing else
 
-BODY:
-[email body]"""
+Example format:
+Subject: Your subject here
+
+Hey [Name],
+
+[Body content...]
+
+Cheers,
+[Signature]
+
+Generate the email now (output format exactly as shown above):"""
 
 # WhatsApp generation prompt (Conversational, brief, ~300-400 chars)
 WHATSAPP_PROMPT = """Generate a hyper-personalized WhatsApp message for this prospect.
@@ -98,24 +145,33 @@ PRODUCT/SERVICE INFORMATION:
 {company_context}
 
 REQUIREMENTS:
-- Style: Conversational and friendly
+- Style: Sharp, direct, conversational (like texting an industry peer)
 - Length: 300-400 characters (brief!)
-- Structure: Quick hook -> Value mention -> Simple CTA
-- Tone: Casual but respectful
+- Structure: Pattern interrupt hook -> Quick insight -> Simple CTA
+- Tone: Confident and casual (not polite/formal)
 - Can use 1-2 relevant emojis
-- NO formal language
+- NO formal language or marketing speak
 - Get to the point fast
-- Feel like a message from a real person
+- Feel like a message from a real person who knows their industry
 
 CRITICAL RULES:
 1. ONLY use real details from PROSPECT DATA
 2. NO placeholders or invented achievements
 3. Use actual project/skill names if mentioned
 4. Product must match PRODUCT/SERVICE INFORMATION
+5. DO NOT infer pain points unless directly supported by data
+6. Avoid spam triggers: revolutionize, cutting edge, guaranteed, limited time, act now
 
 {reference}
 
 Language: {language}
+
+OUTPUT FORMAT (CRITICAL):
+- Start DIRECTLY with the message
+- NO introductory phrases like "Here's the message" or "Here is..."
+- NO explanatory notes
+- NO meta-commentary
+- Just the WhatsApp message itself
 
 Generate ONLY the message text:"""
 
@@ -142,6 +198,12 @@ REQUIREMENTS:
 
 Language: {language}
 
+OUTPUT FORMAT (CRITICAL):
+- Start DIRECTLY with the SMS message
+- NO introductory phrases
+- NO explanations or notes
+- Just the text message itself (max 160 chars)
+
 Generate ONLY the SMS text:"""
 
 # LinkedIn DM prompt (Professional-casual, value-focused, ~200-250 words)
@@ -162,12 +224,14 @@ PRODUCT/SERVICE INFORMATION:
 {company_context}
 
 REQUIREMENTS:
-- Style: Professional-casual (LinkedIn native tone)
+- Style: Sharp professional (industry insider, not vendor)
 - Length: 200-250 words
 - Reference their actual LinkedIn activity/posts if available
 - Show you're in the same professional community
-- Value-focused, not pitchy
-- Professional but not stiff
+- Insight-focused, not pitchy
+- Professional but confident (avoid being overly polite)
+- Pattern interrupt opening for technical personas
+- More traditional opening for executive personas
 
 CRITICAL RULES:
 1. ONLY use details from PROSPECT DATA
@@ -176,10 +240,20 @@ CRITICAL RULES:
 4. NO placeholders like [Your Name]
 5. Product must match PRODUCT/SERVICE INFORMATION
 6. Be honest - if limited data, be broader but authentic
+7. DO NOT infer pain points unless directly supported by data
+8. If no pain point: use curiosity-driven or insight-led messaging
+9. Avoid spam triggers: revolutionize, cutting edge, guaranteed, limited time, exclusive offer
 
 {reference}
 
 Language: {language}
+
+OUTPUT FORMAT (CRITICAL):
+- Start DIRECTLY with the message (e.g., "Hey [Name],")
+- NO introductory phrases like "Here's the message"
+- NO explanatory notes about what you changed
+- NO meta-commentary
+- Just the LinkedIn DM itself
 
 Generate the LinkedIn message:"""
 
@@ -199,14 +273,15 @@ PRODUCT/SERVICE INFORMATION:
 {product_info}
 
 REQUIREMENTS:
-- Style: Casual, friendly, and authentic
+- Style: Casual, authentic, confident (not salesy)
 - Length: 150-200 words
-- Tone: Like messaging a potential friend
+- Tone: Like messaging a peer, not a prospect
 - Reference their actual content/posts if available
 - Be genuine and human
 - Can use emojis naturally
-- NO corporate speak
+- NO corporate speak or marketing language
 - Build connection first, business second
+- Pattern interrupt opening (avoid "came across your profile")
 
 CRITICAL RULES:
 1. ONLY use real details from PROSPECT DATA
@@ -214,8 +289,17 @@ CRITICAL RULES:
 3. Use actual project names if listed
 4. NO placeholders
 5. Product must match PRODUCT/SERVICE INFORMATION
+6. DO NOT infer pain points unless directly supported by data
+7. Avoid spam triggers: revolutionize, guaranteed, limited time, exclusive
 
 Language: {language}
+
+OUTPUT FORMAT (CRITICAL):
+- Start DIRECTLY with the message
+- NO introductory phrases like "Here's the DM"
+- NO explanatory notes
+- NO meta-commentary
+- Just the Instagram message itself
 
 Generate the Instagram DM:"""
 
@@ -239,6 +323,13 @@ INSTRUCTIONS:
 - Preserve the channel-specific format
 
 Language: {language}
+
+OUTPUT FORMAT (CRITICAL):
+- Start DIRECTLY with the regenerated message
+- NO introductory phrases like "Here's the updated..."
+- NO explanatory notes about changes made
+- NO meta-commentary
+- Just the message itself
 
 Generate the updated {channel} message:"""
 

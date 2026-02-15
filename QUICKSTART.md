@@ -46,11 +46,27 @@ pip install -r requirements.txt
 
 ## Running the Application
 
-### Start the Engine
+### Quick Test with Fake Data (Recommended First Run)
+
+```bash
+python main_enhanced.py
+```
+
+Choose **Option 1 (Fake Data Mode)** for instant testing:
+- No scraping required
+- 10 pre-loaded comprehensive prospects
+- Tests all features immediately
+- Perfect for demonstrations
+
+Select any prospect ID (or type 'random') and channels to see **elite-quality output**.
+
+### Full Production Mode
 
 ```bash
 python main.py
 ```
+
+For live scraping with real prospect data.
 
 ## First Run Walkthrough
 
@@ -137,7 +153,14 @@ The system will proceed through the following stages:
 
 ## Tips for Best Results
 
-### 1. Provide More Data
+### 1. Elite Output Quality (NEW)
+- **High-signal hooks** - System prioritizes business-relevant observations (role changes, scaling, launches)
+- **Sharp positioning** - Industry insider tone, not bland/polite
+- **No hallucinations** - Only data-supported insights, no inferred pain points
+- **Deliverability protection** - Avoids spam trigger words
+- **Pattern interrupts** - Persona-specific openings that break through noise
+
+### 2. Provide More Data
 - More input sources lead to better personalization.
 - Include recent activity when available.
 - Mention specific projects or interests.

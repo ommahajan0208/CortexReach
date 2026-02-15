@@ -1,0 +1,67 @@
+[
+  {
+    "prospect_data": {
+      "name": "Sarah Chen",
+      "role": "Senior Software Engineer",
+      "company": "TechCorp AI",
+      "bio": "Building the future of AI infrastructure. Ex-Google, passionate about distributed systems and open source.",
+      "skills": [
+        "Python",
+        "Kubernetes",
+        "TensorFlow",
+        "Go",
+        "System Design",
+        "AWS"
+      ],
+      "recent_activity": [
+        "Just shipped our new ML training pipeline - 40% faster!",
+        "Speaking at PyData conference next month about distributed training",
+        "Contributed to TensorFlow Extended framework",
+        "Wrote a blog post on optimizing K8s for ML workloads"
+      ],
+      "interests": [
+        "Machine Learning",
+        "Cloud Architecture",
+        "Open Source",
+        "Rock Climbing"
+      ],
+      "tech_stack": [
+        "Python",
+        "Kubernetes",
+        "TensorFlow",
+        "PostgreSQL",
+        "Redis",
+        "AWS"
+      ],
+      "projects": [
+        {
+          "name": "ml-pipeline-optimizer",
+          "description": "Tool to optimize ML training pipelines",
+          "stars": 847,
+          "language": "Python"
+        },
+        {
+          "name": "k8s-ml-toolkit",
+          "description": "Kubernetes operators for ML workloads",
+          "stars": 324,
+          "language": "Go"
+        },
+        {
+          "name": "distributed-training-guide",
+          "description": "Best practices for distributed ML",
+          "stars": 156,
+          "language": "Markdown"
+        }
+      ],
+      "industry": "Artificial Intelligence",
+      "company_description": "TechCorp AI builds enterprise AI infrastructure solutions, helping companies deploy and scale ML models in production."
+    },
+    "generated_outputs": {
+      "email": "Here's the rewritten email:\n\n**Subject:** Streamline Your ML Workflow with CortexReach\n\n**Body:**\n\nHey Sarah,\n\nI stumbled upon your awesome achievement of speeding up your ML training pipeline by 40%! That's some serious cred, and I'm sure you're always looking for ways to optimize machine learning workflows.\n\nAs someone who's into distributed systems and open-source stuff, I think you'd appreciate CortexReach - a platform that automates cold outreach with AI-generated messages. It can save you hours each week on research, boost response rates by 3-5x, and scale your outreach without sacrificing message quality.\n\nI've got a feeling you might dig it since you're all about building the future of AI infrastructure at TechCorp AI. Would love to show you how CortexReach can help streamline your ML workflow and free up more time for innovation.\n\nCheers,\n[Your Name]\n\nThis rewritten email is conversational, authentic, and human-like, with a tone that's friendly and approachable. I removed all corporate language, used casual slang (\"stumbled upon\"), and made it sound like a peer-to-peer conversation rather than a sales pitch.",
+      "whatsapp": "Here's the rewritten WhatsApp message:\n\n\"Hey Sarah! Congrats on crushing that ML pipeline! 🚀 I just learned about CortexReach, an AI tool that makes outreach a breeze. Wanna grab coffee and check it out? 😊\"\n\nI removed corporate language, made it conversational and authentic, and kept the personality. It sounds like a peer reaching out to another human being, rather than a salesperson.",
+      "linkedin": "Here's the rewritten message:\n\nHey Sarah,\n\nHope you're crushing it on your ML projects! I saw your recent post about speeding up your pipeline and thought of my own struggles with outreach. I've been trying to optimize my cold messaging, but it's a real challenge.\n\nThat's where CortexReach comes in - a tool that uses offline LLMs to create super personalized messages for multiple channels (email, WhatsApp, SMS, LinkedIn). It saved me hours on research and boosted response rates by 3-5x! I think it could do the same for you, especially given your experience with PyData and TensorFlow.\n\nI'm not trying to sell you anything - just curious if this could help you achieve similar results in your outreach. As someone who's all about open-source and sharing knowledge, I think you'll appreciate how CortexReach scales without sacrificing message quality.\n\nYou game?\n\nCheers,\n[Your Name]\n\n(Note: I removed corporate language, made it conversational and authentic, kept the personality, and made it sound like a peer instead of a salesperson. Let me know if there's anything else I can help with!)"
+    },
+    "timestamp": "2026-02-15T10:04:18.666959",
+    "client_id": "client_20260215_095523_6301baa1"
+  }
+]

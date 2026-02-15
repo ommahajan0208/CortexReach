@@ -63,14 +63,19 @@ QuantumTech Labs    research_001 (Emily) + research_002 (Michael)
 → Run same company prospects sequentially to test context reuse!
 
 ┌──────────────────────────────────────────────────────────────────────┐
-│ OUTPUT CHANNELS                                                      │
+│ OUTPUT CHANNELS (Elite Quality)                                      │
 └──────────────────────────────────────────────────────────────────────┘
 
-1. Email            150-200 words • Professional
-2. WhatsApp         300-400 chars • Conversational
-3. SMS              Max 160 chars • Ultra-short
-4. LinkedIn DM      200-250 words • Professional-casual
-5. Instagram DM     150-200 words • Casual, friendly
+1. Email            150-200 words • Sharp insider tone
+2. WhatsApp         300-400 chars • Confident conversational
+3. SMS              Max 160 chars • Pattern interrupt
+4. LinkedIn DM      200-250 words • Business-focused
+5. Instagram DM     150-200 words • Confident casual
+
+✓ High-signal hooks only (business relevance)
+✓ No inferred pain points (data-supported or curiosity-driven)
+✓ Spam trigger avoidance (deliverability protection)
+✓ Persona-adaptive pattern interrupts
 
 ┌──────────────────────────────────────────────────────────────────────┐
 │ TESTING SCENARIOS                                                    │

@@ -17,10 +17,23 @@ RULES FOR TECHNICAL PERSONAS:
 - Be direct and data-driven
 - Cut 20-30% while keeping personalization
 - No corporate speak
+- Sound like a sharp technical peer, not a vendor
+- DO NOT infer pain points unless data supports it
+- Avoid spam triggers (revolutionize, cutting edge, guaranteed)
 
 CHANNEL: {channel} | Max length: {max_length}
 
-Rewrite for maximum response rate. Output ONLY the improved message:""",
+OUTPUT FORMAT (CRITICAL):
+- Start DIRECTLY with the improved message
+- NO phrases like "Here's the rewritten..." or "Here is..."
+- NO explanations of what you changed
+- NO notes about tone, style, or improvements made
+- NO meta-commentary
+- Just the improved message itself, nothing before or after
+- If email: Start with "Subject:" (no bold/markdown)
+- If other channel: Start with first word of message
+
+Rewrite for maximum response rate (output the message directly, no commentary):""",
 
     'executive': """You are a harsh critic optimizing outreach for busy executives.
 
@@ -35,10 +48,23 @@ RULES FOR EXECUTIVES (They have 30 seconds):
 - Crystal clear ROI/benefit
 - Shorter sentences, active voice
 - Make it scannable
+- Sound confident and sharp, not polite
+- DO NOT infer pain points unless data supports it
+- Avoid spam triggers and overly promotional language
 
 CHANNEL: {channel} | Max length: {max_length}
 
-Rewrite for maximum response rate. Output ONLY the improved message:""",
+OUTPUT FORMAT (CRITICAL):
+- Start DIRECTLY with the improved message
+- NO phrases like "Here's the rewritten..." or "Here is..."
+- NO explanations of what you changed
+- NO notes about tone, style, or improvements made
+- NO meta-commentary
+- Just the improved message itself, nothing before or after
+- If email: Start with "Subject:" (no bold/markdown)
+- If other channel: Start with first word of message
+
+Rewrite for maximum response rate (output the message directly, no commentary):""",
 
     'casual': """You are a harsh critic optimizing outreach for casual/creative audiences.
 
@@ -53,10 +79,23 @@ RULES FOR CASUAL PERSONAS:
 - Be human, not professional-robot
 - Keep personality
 - Sound like a peer, not a salesperson
+- Sharp and confident, not apologetic
+- DO NOT infer pain points unless data supports it
+- Pattern interrupt opening (avoid generic "came across your profile")
 
 CHANNEL: {channel} | Max length: {max_length}
 
-Rewrite for maximum response rate. Output ONLY the improved message:""",
+OUTPUT FORMAT (CRITICAL):
+- Start DIRECTLY with the improved message
+- NO phrases like "Here's the rewritten..." or "Here is..."
+- NO explanations of what you changed
+- NO notes about tone, style, or improvements made
+- NO meta-commentary
+- Just the improved message itself, nothing before or after
+- If email: Start with "Subject:" (no bold/markdown)
+- If other channel: Start with first word of message
+
+Rewrite for maximum response rate (output the message directly, no commentary):""",
 
     'formal': """You are a harsh critic optimizing outreach for formal/professional audiences.
 
@@ -66,15 +105,27 @@ ORIGINAL:
 PROSPECT: {role} at {company}
 
 RULES FOR FORMAL PERSONAS:
-- Maintain professional tone
+- Maintain professional tone (but confident, not timid)
 - Clear structure (intro, value, ask)
 - Cut fluff but keep courtesy
 - Reduce by 20-25%
 - Complete sentences, no slang
+- DO NOT infer pain points unless data supports it
+- Avoid spam triggers and promotional language
 
 CHANNEL: {channel} | Max length: {max_length}
 
-Rewrite for maximum response rate. Output ONLY the improved message:"""
+OUTPUT FORMAT (CRITICAL):
+- Start DIRECTLY with the improved message
+- NO phrases like "Here's the rewritten..." or "Here is..."
+- NO explanations of what you changed
+- NO notes about tone, style, or improvements made
+- NO meta-commentary
+- Just the improved message itself, nothing before or after
+- If email: Start with "Subject:" (no bold/markdown)
+- If other channel: Start with first word of message
+
+Rewrite for maximum response rate (output the message directly, no commentary):"""
 }
 
 # Channel max lengths
@@ -85,6 +136,65 @@ CHANNEL_LENGTHS = {
     'linkedin': '250 words',
     'instagram': '200 words'
 }
+
+
+def clean_llm_output(content):
+    """
+    Remove common LLM meta-commentary that might slip through despite prompt instructions
+    
+    Args:
+        content: str - LLM output
+    
+    Returns:
+        str: cleaned content
+    """
+    import re
+    
+    # Remove common introductory phrases
+    intro_patterns = [
+        r"^Here'?s?\s+(the\s+)?(rewritten\s+|updated\s+|improved\s+)?\w+:?\s*\n*",
+        r"^Here\s+is\s+(the\s+)?(rewritten\s+|updated\s+|improved\s+)?\w+:?\s*\n*",
+        r"^I've\s+rewritten.*?:?\s*\n*",
+        r"^I\s+removed.*?:?\s*\n*"
+    ]
+    
+    for pattern in intro_patterns:
+        content = re.sub(pattern, "", content, flags=re.IGNORECASE | re.MULTILINE)
+    
+    # Remove markdown bold from Subject line
+    content = re.sub(r'\*\*Subject:\*\*', 'Subject:', content)
+    content = re.sub(r'\*\*Body:\*\*', '', content)
+    
+    # Remove trailing explanations (paragraphs starting with common meta-phrases)
+    lines = content.split('\n')
+    cleaned_lines = []
+    found_meta = False
+    
+    meta_starters = [
+        'this rewritten',
+        'this updated',
+        'i removed',
+        'i made',
+        'i changed',
+        'note:',
+        'the tone',
+        'the style'
+    ]
+    
+    for line in lines:
+        line_lower = line.strip().lower()
+        if any(line_lower.startswith(phrase) for phrase in meta_starters):
+            found_meta = True
+            break
+        if not found_meta:
+            cleaned_lines.append(line)
+    
+    content = '\n'.join(cleaned_lines).strip()
+    
+    # Remove parenthetical notes at the end
+    content = re.sub(r'\(Note:.*?\)\s*$', '', content, flags=re.IGNORECASE | re.DOTALL)
+    
+    return content
 
 
 def apply_critic_pass(content, channel, prospect_data, persona, config, llm_generate_func):
@@ -119,6 +229,9 @@ def apply_critic_pass(content, channel, prospect_data, persona, config, llm_gene
         
         # Generate optimized version
         optimized = llm_generate_func(prompt, config, max_tokens=600)
+        
+        # Clean up any meta-commentary that might have slipped through
+        optimized = clean_llm_output(optimized)
         
         # Calculate improvement
         original_len = len(content)
