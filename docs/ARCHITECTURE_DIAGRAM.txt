@@ -7,7 +7,7 @@ CortexReach - Enhanced Architecture (Fake Data Only + Rich TUI)
                                   │
                                   ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│                        main_enhanced.py                             │
+│                        main.py                                      │
 │  • Beautiful Rich TUI banner (cyan)                                 │
 │  • Color-coded prerequisites check                                  │
 │  • Optional quick help                                              │
@@ -15,7 +15,7 @@ CortexReach - Enhanced Architecture (Fake Data Only + Rich TUI)
                                   │
                                   ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│                      enhanced_runner.py                             │
+│                      runner.py                                      │
 │                      (Rich TUI Orchestrator)                        │
 │                                                                     │
 │  STEP 1: Client Management (Rich Panel)                             │

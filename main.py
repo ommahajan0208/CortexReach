@@ -1,73 +1,149 @@
 """
-Main Entry Point - Offline LLM-Powered Hyper-Personalized Cold Outreach Engine
-
-Run this file to start the application:
-    python main.py
+CortexReach - Enhanced Main Entry Point
+Fake data mode only - 10 comprehensive test prospects with Rich TUI
 """
 
-import sys
 import os
+import sys
+from rich.console import Console
 
-# Add project root to path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-from runner import run_outreach_engine
+console = Console()
 
 
-def display_welcome():
+def display_banner():
     """Display welcome banner"""
     banner = """
-╔══════════════════════════════════════════════════════════════════════╗
-║                                                                      ║
-║                   WELCOME TO CORTEXREACH ENGINE                      ║
-║                                                                      ║
-║   Generate highly personalized outreach messages across multiple     ║
-║   channels using offline LLMs and intelligent data analysis.         ║
-║                                                                      ║
-╚══════════════════════════════════════════════════════════════════════╝
+    ╔══════════════════════════════════════════════════════════════════════╗
+    ║                                                                      ║
+    ║                          CORTEXREACH                                 ║
+    ║         Hyper-Personalized Cold Outreach Engine                      ║
+    ║                                                                      ║
+    ║                 Powered by Offline LLMs                              ║
+    ║                                                                      ║
+    ╚══════════════════════════════════════════════════════════════════════╝
+    
+    🎯 TEST DATA MODE - 10 COMPREHENSIVE PROSPECTS
+    
+    📂 AVAILABLE DATA:
+       - 10 diverse test prospects
+       - Covers all features (LinkedIn, Website, X, GitHub)
+       - Multiple personas (Technical, Executive, Founders, Researchers)
+       - Same-company prospects (tests context reuse)
+       - Perfect for testing and demonstrations
+    
+    💡 FEATURES:
+       ✓ Multi-source data collection
+       ✓ Intelligent persona analysis
+       ✓ High-signal hook extraction
+       ✓ Company context reuse (learning from past outreach)
+       ✓ Multi-channel output (Email, WhatsApp, SMS, LinkedIn, Instagram)
+       ✓ Privacy & ethics validation
+       ✓ Content regeneration with modifications
+       ✓ Offline LLM (complete privacy)
+    
+    ════════════════════════════════════════════════════════════════════════
+    """
+    console.print(banner, style="bold cyan")
 
-Features:
-  -> Multi-source data collection (LinkedIn, Website, Twitter/X, GitHub)
-  -> AI-powered persona analysis and hook extraction
-  -> Company context reuse and smart referencing
-  -> Multi-channel output (Email, WhatsApp, SMS, LinkedIn, Instagram)
-  -> Privacy and ethics validation
-  -> Client-based data storage and learning
 
-"""
-    print(banner)
-
-
-def check_requirements():
-    """Check if required packages are installed"""
+def check_prerequisites():
+    """Check if prerequisites are met"""
+    console.print("\n[bold]CHECKING PREREQUISITES...[/bold]")
+    console.print("─" * 70)
+    
+    # Check Python version
+    python_version = sys.version_info
+    console.print(f"Python Version: {python_version.major}.{python_version.minor}.{python_version.micro}")
+    
+    if python_version.major < 3 or (python_version.major == 3 and python_version.minor < 8):
+        console.print("[yellow]⚠ Warning: Python 3.8+ recommended[/yellow]")
+    else:
+        console.print("[green]✓ Python version OK[/green]")
+    
+    # Check if Ollama is accessible (optional check)
     try:
         import requests
-        import bs4
-    except ImportError:
-        print("Missing required packages. Installing...")
-        import subprocess
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
-        print("Packages installed successfully!\n")
+        response = requests.get('http://localhost:11434/api/tags', timeout=2)
+        if response.status_code == 200:
+            console.print("[green]✓ Ollama is running[/green]")
+        else:
+            console.print("[yellow]⚠ Ollama may not be running[/yellow]")
+    except:
+        console.print("[yellow]⚠ Could not verify Ollama status[/yellow]")
+        console.print("  Make sure Ollama is installed and running:")
+        console.print("  https://ollama.ai")
+    
+    # Check for data directory
+    if not os.path.exists('data'):
+        os.makedirs('data')
+        console.print("[green]✓ Created data directory[/green]")
+    else:
+        console.print("[green]✓ Data directory exists[/green]")
+    
+    console.print("─" * 70)
+    console.print()
+
+
+def display_quick_help():
+    """Display quick help information"""
+    help_text = """
+    QUICK HELP:
+    ──────────
+    
+    🎯 TEST DATA - 10 COMPREHENSIVE PROSPECTS:
+    
+    Available fake prospects:
+      • 3 Technical professionals (engineers, DevOps)
+      • 2 Executives (VP, CTO)
+      • 3 Founders/Entrepreneurs (CEOs, CTOs)
+      • 2 Researchers/Academics (PhD, research scientists)
+    
+    Multiple prospects from same companies:
+      • TechCorp AI (2 prospects)
+      • EcoTrack (2 prospects)
+      • QuantumTech Labs (2 prospects)
+    
+    This tests the company context reuse feature!
+    
+    ════════════════════════════════════════════════════════════════════════
+    """
+    console.print(help_text, style="dim")
 
 
 def main():
     """Main entry point"""
-    display_welcome()
+    # Clear screen (optional)
+    # os.system('cls' if os.name == 'nt' else 'clear')
     
-    # Check requirements
-    check_requirements()
+    # Display banner
+    display_banner()
     
-    input("\nPress Enter to start...")
-    print("CortexReach Engine Initialized")
-    # Run the engine
+    # Optional: Display help
+    show_help = input("Show detailed help? (y/n, default: n): ").strip().lower()
+    if show_help == 'y':
+        display_quick_help()
+    
+    # Check prerequisites
+    check_prerequisites()
+    
+    # Ask if ready to continue
+    input("Press ENTER to start...")
+    
+    # Import and run the enhanced runner
     try:
-        run_outreach_engine()
+        from runner import run_enhanced_outreach_engine
+        run_enhanced_outreach_engine()
     except KeyboardInterrupt:
-        print("\n\nInterrupted by user. Goodbye!")
+        console.print("\n\n[yellow]⚠ Interrupted by user. Exiting...[/yellow]")
     except Exception as e:
-        print(f"\n\nFatal error: {str(e)}")
+        console.print(f"\n\n[bold red]✗ Fatal error: {str(e)}[/bold red]")
         import traceback
         traceback.print_exc()
+        console.print("\n\n[yellow]If you see errors about missing modules:[/yellow]")
+        console.print("  [cyan]pip install -r requirements.txt[/cyan]")
+        console.print("\n[yellow]If you see Ollama connection errors:[/yellow]")
+        console.print("  Make sure Ollama is installed and running")
+        console.print("  Visit: [cyan]https://ollama.ai[/cyan]")
 
 
 if __name__ == "__main__":

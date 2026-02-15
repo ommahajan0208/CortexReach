@@ -19,7 +19,8 @@ Configuration:
 Layers (Function-based architecture):
 
 1. INPUT LAYER (layers/input_layer/)
-   - prospect_loader.py      # Menu & input orchestration
+   - enhanced_prospect_loader.py # Enhanced loader for fake data mode
+- fake_data_loader.py       # Loads 10 comprehensive fake prospects
    - linkedin_scraper.py     # LinkedIn data collection
    - website_scraper.py      # Company website scraping
    - x_scraper.py            # Twitter/X data collection
