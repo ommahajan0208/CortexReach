@@ -1,5 +1,5 @@
 """
-Enhanced Prospect Loader - Supports both fake data and live scraping
+Enhanced Prospect Loader - Fake data mode for testing
 Integrates fake_data_loader for comprehensive testing
 """
 
@@ -227,21 +227,90 @@ def get_live_data_inputs():
 
 def get_enhanced_user_inputs():
     """
-    Enhanced input collection that supports both fake and live data
+    Get user inputs for fake data mode
     
     Returns:
-        dict: Contains mode, data sources, and selected channels
+        dict: Contains prospect data and selected channels
     """
-    # Ask for data mode
-    mode = get_data_mode()
+    print("\n" + "="*70)
+    print("FAKE PROSPECT DATABASE")
+    print("="*70)
     
-    if not mode:
+    # Display prospect menu
+    display_prospect_menu()
+    
+    # Get prospect selection
+    print("\nEnter prospect ID (e.g., 'tech_001') or 'random' for random:")
+    prospect_id = input("> ").strip().lower()
+    
+    if prospect_id == 'random':
+        import random
+        prospect_id = random.choice(list(FAKE_PROSPECTS.keys()))
+        print(f"\nRandomly selected: [{prospect_id}] {FAKE_PROSPECTS[prospect_id]['name']}")
+    
+    if prospect_id not in FAKE_PROSPECTS:
+        print(f"\nInvalid prospect ID: {prospect_id}")
         return None
     
-    if mode == 'fake':
-        return get_fake_data_inputs()
+    # Get the prospect data
+    prospect_data = get_fake_prospect(prospect_id)
+    linkedin_data, website_data, x_data, github_data = get_fake_prospect_with_sources(prospect_id)
+    
+    # Show what data is available
+    print("\n" + "="*70)
+    print(f"SELECTED: {prospect_data['name']}")
+    print("="*70)
+    print(f"Role: {prospect_data['role']}")
+    print(f"Company: {prospect_data['company']}")
+    print(f"Industry: {prospect_data['industry']}")
+    
+    print("\nAvailable data sources:")
+    print(f"  ✓ LinkedIn: {prospect_data['name']}")
+    print(f"  ✓ Website: {prospect_data['company']}")
+    print(f"  ✓ Twitter/X: {len(prospect_data['recent_activity'])} recent activities")
+    if github_data:
+        print(f"  ✓ GitHub: {len(prospect_data['projects'])} projects")
     else:
-        return get_live_data_inputs()
+        print(f"  ✗ GitHub: Not available for this prospect")
+    
+    # Get output channels
+    display_channel_menu()
+    channel_input = input("\nEnter channel numbers (comma-separated): ").strip()
+    
+    if not channel_input:
+        print("No output channels selected. Exiting.")
+        return None
+    
+    channel_map = {
+        '1': 'email',
+        '2': 'whatsapp',
+        '3': 'sms',
+        '4': 'linkedin',
+        '5': 'instagram'
+    }
+    
+    selected_channel_nums = [c.strip() for c in channel_input.split(',')]
+    selected_channels = [
+        channel_map[num] for num in selected_channel_nums 
+        if num in channel_map
+    ]
+    
+    if not selected_channels:
+        print("No valid channels selected. Exiting.")
+        return None
+    
+    print(f"\nChannels selected: {', '.join(selected_channels)}")
+    
+    return {
+        'mode': 'fake',
+        'prospect_id': prospect_id,
+        'prospect_data': prospect_data,
+        'linkedin_data': linkedin_data,
+        'website_data': website_data,
+        'x_data': x_data,
+        'github_data': github_data,
+        'selected_channels': selected_channels
+    }
 
 
 # For testing

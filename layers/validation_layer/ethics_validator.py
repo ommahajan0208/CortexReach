@@ -3,6 +3,9 @@ Ethics Validator - Check for manipulative or inappropriate content
 """
 
 import re
+from rich.console import Console
+
+console = Console()
 
 
 def validate_ethics(content):
@@ -86,17 +89,14 @@ def validate_ethics_and_display(content):
     Returns:
         bool: True if valid, False otherwise
     """
-    print("\n[VALIDATION] Checking ethics...")
-    
     result = validate_ethics(content)
     
     if result['is_valid']:
-        print("Ethics check passed")
         return True
     else:
-        print("Ethical concerns found:")
+        console.print("  [yellow]⚠ Ethical concerns:[/yellow]")
         for concern in result['concerns']:
-            print(f"   - {concern}")
+            console.print(f"    • {concern}")
         if result['suggestion']:
-            print(f"\nSuggestion: {result['suggestion']}")
+            console.print(f"\n  [dim]Suggestion: {result['suggestion']}[/dim]")
         return False

@@ -105,6 +105,10 @@ Avoid spam trigger phrases:
 - best in class, world-class, industry-leading, award-winning
 Use natural sentence variation and avoid overly promotional language.
 
+FORMATTING:
+- NO emojis (keep it professional)
+- Plain text only
+
 {reference}
 
 Language: {language}
@@ -197,6 +201,7 @@ REQUIREMENTS:
 - Length: Maximum 160 characters (strict!)
 - Must include one personalized element from prospect data
 - Include a clear CTA (e.g., "Interested?", "Quick chat?", "Worth a look?")
+- Can use 1-2 emojis if appropriate
 - NO fluff or filler words
 - Every word counts
 - Use ONLY real details, no placeholders like [link] or [CTA]
@@ -243,6 +248,7 @@ REQUIREMENTS:
 - Professional but confident (avoid being overly polite)
 - Pattern interrupt opening for technical personas
 - More traditional opening for executive personas
+- NO emojis (professional platform)
 
 CRITICAL RULES:
 1. ONLY use details from PROSPECT DATA
@@ -289,7 +295,7 @@ REQUIREMENTS:
 - Tone: Like messaging a peer, not a prospect
 - Reference their actual content/posts if available
 - Be genuine and human
-- Can use emojis naturally
+- Can use 2-3 relevant emojis naturally
 - NO corporate speak or marketing language
 - Build connection first, business second
 - Pattern interrupt opening (avoid "came across your profile")

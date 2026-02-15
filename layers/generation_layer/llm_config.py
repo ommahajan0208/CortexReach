@@ -35,22 +35,12 @@ def get_llm_config():
     if is_ollama_available(config['api_url']):
         print("Ollama is running")
         
-        # Ask for model
-        print("\nDefault model: llama3")
-        model_input = input("Enter model name (or press Enter for default): ").strip()
-        if model_input:
-            config['model_name'] = model_input
-        
     else:
         print("Ollama is not running!")
         print("\nPlease start Ollama:")
         print("   1. Install from: https://ollama.ai")
-        print("   2. Run: ollama pull llama2")
+        print("   2. Run: ollama pull llama3")
         print("   3. Start Ollama service")
-        print("\nRecommended models:")
-        print("   - llama2 (default, fast)")
-        print("   - mistral (better quality)")
-        print("   - llama3 (best quality, slower)")
         
         input("\nPress Enter after starting Ollama...")
         
@@ -60,29 +50,8 @@ def get_llm_config():
         
         print("Ollama connected!")
     
-    # Language selection
-    print("\nSelect output language:")
-    print("  1. English (default)")
-    print("  2. Spanish")
-    print("  3. French")
-    print("  4. German")
-    print("  5. Other")
-    
-    lang_choice = input("\nEnter choice (or press Enter for English): ").strip()
-    
-    lang_map = {
-        '1': 'English',
-        '2': 'Spanish',
-        '3': 'French',
-        '4': 'German',
-    }
-    
-    if lang_choice == '5':
-        config['language'] = input("Enter language: ").strip() or 'English'
-    elif lang_choice in lang_map:
-        config['language'] = lang_map[lang_choice]
-    
-    print(f"\nLLM configured: {config['model_name']} | Language: {config['language']}")
+    # Use default configuration
+    print(f"\nUsing defaults: {config['model_name']} | Language: {config['language']}")
     
     return config
 

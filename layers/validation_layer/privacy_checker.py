@@ -3,6 +3,9 @@ Privacy Checker - Ensure no sensitive data leaks in generated content
 """
 
 import re
+from rich.console import Console
+
+console = Console()
 
 
 def check_privacy(content, prospect_data):
@@ -66,15 +69,12 @@ def validate_privacy(content, prospect_data):
     Returns:
         bool: True if valid, False otherwise
     """
-    print("\n[VALIDATION] Checking privacy...")
-    
     result = check_privacy(content, prospect_data)
     
     if result['is_valid']:
-        print("Privacy check passed")
         return True
     else:
-        print("Privacy issues found:")
+        console.print("  [yellow]⚠ Privacy issues:[/yellow]")
         for issue in result['issues']:
-            print(f"   - {issue}")
+            console.print(f"    • {issue}")
         return False

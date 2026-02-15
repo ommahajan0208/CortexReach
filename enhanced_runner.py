@@ -1,10 +1,27 @@
 """
-Enhanced Runner - Orchestrates workflow with support for fake and live data
+Enhanced Runner - Orchestrates workflow with fake test data
 Coordinates all layers and manages the flow from input to output
 """
 
 import sys
 import os
+
+# Import Rich console manager
+from layers.visualization_layer.console_manager import (
+    console,
+    print_step,
+    print_success,
+    print_error,
+    print_warning,
+    print_info,
+    print_hooks_table,
+    print_persona_info,
+    print_channel_output,
+    print_validation_result,
+    print_prospect_card,
+    print_divider,
+    create_progress_bar
+)
 
 # Import enhanced loader
 from enhanced_prospect_loader import get_enhanced_user_inputs
@@ -17,7 +34,6 @@ from layers.input_layer.x_scraper import scrape_x_profile
 from layers.input_layer.github_scraper import scrape_github_profile
 
 from layers.analysis_layer.persona_analyzer import analyze_persona
-from layers.analysis_layer.engagement_scorer import calculate_engagement_score
 from layers.analysis_layer.hook_extractor import extract_hooks
 
 from layers.context_layer.company_matcher import find_same_company_prospects
@@ -43,85 +59,57 @@ def run_enhanced_outreach_engine():
     """
     
     # Step 1: Get or create client ID
-    print("\n[STEP 1/8] Client Management")
+    print_step("Client Management", 1)
     client_id = get_or_create_client_id()
     
     # Step 2: Configure LLM
-    print("\n[STEP 2/8] LLM Configuration")
+    print_step("LLM Configuration", 2)
     llm_config = get_llm_config()
     
     if not llm_config:
-        print("\nLLM configuration failed. Exiting.")
+        print_error("LLM configuration failed. Exiting.")
         return
     
-    # Step 3: Get user inputs (sources + channels) - ENHANCED
-    print("\n[STEP 3/8] Input Collection")
+    # Step 3: Get user inputs
+    print_step("Input Collection", 3)
     user_inputs = get_enhanced_user_inputs()
     
     if not user_inputs:
-        print("\nInput collection failed. Exiting.")
+        print_error("Input collection failed. Exiting.")
         return
     
-    # Step 4: Get prospect data (either from fake data or live scraping)
-    print("\n[STEP 4/8] Data Collection")
+    # Step 4: Get prospect data from fake data
+    print_step("Data Collection", 4)
     
-    if user_inputs['mode'] == 'fake':
-        # Use pre-loaded fake data
-        print("\n[FAKE DATA MODE] Using pre-loaded test data...")
-        print(f"Prospect: {user_inputs['prospect_data']['name']}")
-        print(f"Company: {user_inputs['prospect_data']['company']}")
-        
-        prospect_data = user_inputs['prospect_data']
-        
-        # Show what data sources are included
-        print("\nData sources included:")
-        print(f"  ✓ LinkedIn (name, role, company, bio, skills)")
-        print(f"  ✓ Website (company info, industry, tech stack)")
-        print(f"  ✓ Twitter/X ({len(prospect_data['recent_activity'])} activities)")
-        if prospect_data['projects']:
-            print(f"  ✓ GitHub ({len(prospect_data['projects'])} projects)")
-        
-    else:
-        # Scrape live data
-        print("\n[LIVE SCRAPING MODE] Collecting data from sources...")
-        
-        linkedin_data = None
-        website_data = None
-        x_data = None
-        github_data = None
-        
-        if user_inputs['linkedin_url']:
-            linkedin_data = scrape_linkedin_profile(user_inputs['linkedin_url'])
-        
-        if user_inputs['website_url']:
-            website_data = scrape_company_website(user_inputs['website_url'])
-        
-        if user_inputs['x_url']:
-            x_data = scrape_x_profile(user_inputs['x_url'])
-        
-        if user_inputs['github_url']:
-            github_data = scrape_github_profile(user_inputs['github_url'])
-        
-        # Merge all data
-        print("\n[INPUT] Merging data from all sources...")
-        prospect_data = merge_prospect_data(linkedin_data, website_data, x_data, github_data)
+    prospect_data = user_inputs['prospect_data']
     
-    print(f"\n✓ Prospect data ready: {prospect_data.get('name', 'Unknown')}")
+    # Show prospect card
+    print_prospect_card(prospect_data)
+    
+    # Show what data sources are included
+    console.print("\n[bold]Data sources included:[/bold]")
+    print_success("LinkedIn (name, role, company, bio, skills)")
+    print_success("Website (company info, industry, tech stack)")
+    print_success(f"Twitter/X ({len(prospect_data['recent_activity'])} activities)")
+    if prospect_data['projects']:
+        print_success(f"GitHub ({len(prospect_data['projects'])} projects)")
+    
+    print_success(f"Prospect data ready: {prospect_data.get('name', 'Unknown')}")
     
     # Step 5: Analyze prospect
-    print("\n[STEP 5/8] Prospect Analysis")
+    print_step("Prospect Analysis", 5)
     
     # Analyze persona
+    console.print("\n[bold blue]→[/bold blue] Analyzing persona...")
     persona = analyze_persona(prospect_data, generate_with_llm, llm_config)
+    print_persona_info(persona)
     
-    # Calculate engagement score
-    engagement_score = calculate_engagement_score(prospect_data, persona)
-    
-    # Extract hooks
+    # Extract hooks (this will now display the hooks table automatically)
+    console.print("\n[bold blue]→[/bold blue] Extracting personalization hooks...")
     hooks = extract_hooks(prospect_data, generate_with_llm, llm_config)
     
     # Step 6: Context & Learning
-    print("\n[STEP 6/8] Context & Learning")
+    print_step("Context & Learning", 6)
     
     company_name = prospect_data.get('company')
     same_company_prospects = find_same_company_prospects(company_name, client_id)
@@ -135,44 +123,54 @@ def run_enhanced_outreach_engine():
     reference = build_company_reference(same_company_prospects)
     
     # Step 7: Generate content for selected channels
-    print("\n[STEP 7/8] Content Generation & Optimization")
+    print_step("Content Generation & Optimization", 7)
     
     generated_outputs = {}
     
-    for channel in user_inputs['selected_channels']:
-        try:
-            # Generate initial content
-            content = generate_for_channel(
-                prospect_data,
-                persona,
-                hooks,
-                company_context,
-                reference,
-                channel,
-                llm_config
-            )
-            
-            # Apply critic pass automatically
-            if content:
-                print(f"[CRITIC] Optimizing {channel.upper()}...")
-                optimized_content = apply_critic_pass(
-                    content,
-                    channel,
+    # Create progress bar
+    with create_progress_bar("Generating content...") as progress:
+        task = progress.add_task("Processing channels", total=len(user_inputs['selected_channels']))
+        
+        for channel in user_inputs['selected_channels']:
+            try:
+                progress.update(task, description=f"[cyan]Generating {channel.upper()}...")
+                
+                # Generate initial content
+                content = generate_for_channel(
                     prospect_data,
                     persona,
-                    llm_config,
-                    generate_with_llm
+                    hooks,
+                    company_context,
+                    reference,
+                    channel,
+                    llm_config
                 )
-                generated_outputs[channel] = optimized_content
-            else:
+                
+                # Apply critic pass automatically
+                if content:
+                    progress.update(task, description=f"[yellow]Optimizing {channel.upper()}...")
+                    optimized_content = apply_critic_pass(
+                        content,
+                        channel,
+                        prospect_data,
+                        persona,
+                        llm_config,
+                        generate_with_llm
+                    )
+                    generated_outputs[channel] = optimized_content
+                    print_success(f"{channel.upper()} generated ({len(optimized_content)} chars)")
+                else:
+                    generated_outputs[channel] = None
+                
+                progress.advance(task)
+                
+            except Exception as e:
+                print_error(f"Error generating {channel} content: {str(e)}")
                 generated_outputs[channel] = None
-            
-        except Exception as e:
-            print(f"Error generating {channel} content: {str(e)}")
-            generated_outputs[channel] = None
+                progress.advance(task)
     
     # Step 8: Validate and display results
-    print("\n[STEP 8/8] Validation & Output")
+    print_step("Validation & Output", 8)
     
     # Display each channel's output
     for channel, content in generated_outputs.items():
@@ -181,12 +179,12 @@ def run_enhanced_outreach_engine():
     
     # Regeneration loop
     while True:
-        print("\n" + "="*70)
-        print("OPTIONS:")
-        print("  1. Regenerate specific channel")
-        print("  2. Save and finish")
-        print("  3. Exit without saving")
-        print("="*70)
+        print_divider()
+        console.print("\n[bold yellow]OPTIONS:[/bold yellow]")
+        console.print("  [cyan]1.[/cyan] Regenerate specific channel")
+        console.print("  [green]2.[/green] Save and finish")
+        console.print("  [red]3.[/red] Exit without saving")
+        print_divider()
         
         choice = input("\nSelect option: ").strip()
         
@@ -198,7 +196,7 @@ def run_enhanced_outreach_engine():
                 modifications = input("\nWhat changes do you want? (be specific): ").strip()
                 
                 if modifications:
-                    print(f"\n[REGENERATING] {channel_to_regen.upper()} with modifications...")
+                    console.print(f"\n[bold cyan]→[/bold cyan] Regenerating {channel_to_regen.upper()} with modifications...")
                     regenerated = regenerate_content(
                         generated_outputs[channel_to_regen],
                         modifications,
@@ -208,101 +206,71 @@ def run_enhanced_outreach_engine():
                     )
                     
                     # Validate regenerated content
+                    console.print("\n[bold]Validating regenerated content...[/bold]")
                     privacy_ok = validate_privacy(regenerated, prospect_data)
                     ethics_ok = validate_ethics_and_display(regenerated)
                     
                     if privacy_ok and ethics_ok:
                         generated_outputs[channel_to_regen] = regenerated
+                        print_success(f"Regenerated {channel_to_regen.upper()} successfully validated!")
                         display_channel_output(channel_to_regen, regenerated, prospect_data)
                     else:
-                        print("\n⚠ Regenerated content has issues. Keeping original.")
+                        print_warning("Regenerated content has issues. Keeping original.")
         
         elif choice == '2':
             # Save and finish
-            print("\n[STORAGE] Saving results...")
+            console.print("\n[bold cyan]→[/bold cyan] Saving results...")
             save_prospect(prospect_data, generated_outputs, client_id)
             
             # Save company insights for future reuse
             save_company_insights(company_name, company_context, prospect_data, client_id)
             
-            print("\n" + "="*70)
-            print("✓ OUTREACH GENERATION COMPLETE!")
-            print("="*70)
-            print(f"\nProspect: {prospect_data.get('name', 'Unknown')}")
-            print(f"Company: {prospect_data.get('company', 'Unknown')}")
-            print(f"Engagement Score: {engagement_score}/100")
-            print(f"Channels Generated: {len(user_inputs['selected_channels'])}")
-            print(f"  - {', '.join(user_inputs['selected_channels'])}")
-            print(f"\nClient ID: {client_id}")
+            print_divider()
+            console.print("\n[bold green]✓ OUTREACH GENERATION COMPLETE![/bold green]")
+            print_divider()
+            console.print(f"\n[bold]Prospect:[/bold] [cyan]{prospect_data.get('name', 'Unknown')}[/cyan]")
+            console.print(f"[bold]Company:[/bold] [green]{prospect_data.get('company', 'Unknown')}[/green]")
+            console.print(f"[bold]Channels Generated:[/bold] [yellow]{len(user_inputs['selected_channels'])}[/yellow]")
+            console.print(f"  • {', '.join(user_inputs['selected_channels'])}")
+            console.print(f"\n[bold]Client ID:[/bold] [dim]{client_id}[/dim]")
             
-            if user_inputs['mode'] == 'fake':
-                print(f"Data Mode: FAKE (Prospect ID: {user_inputs['prospect_id']})")
-            else:
-                print(f"Data Mode: LIVE (Scraped from URLs)")
+            if user_inputs.get('mode') == 'fake' and user_inputs.get('prospect_id'):
+                console.print(f"[bold]Data Mode:[/bold] [magenta]FAKE[/magenta] (Prospect ID: {user_inputs['prospect_id']})")
             
-            print("\nResults saved successfully!")
-            print("="*70)
+            print_success("Results saved successfully!")
+            print_divider()
             break
         
         elif choice == '3':
-            print("\nExiting without saving...")
+            console.print("\n[yellow]Exiting without saving...[/yellow]")
             break
 
 
 def display_channel_output(channel, content, prospect_data):
     """Display output for a specific channel with validation and clear formatting"""
     
-    # Header with clear separator
-    print("\n")
-    print("=" * 80)
-    print(f"📨 {channel.upper()}")
-    print("=" * 80)
+    # Use rich console for beautiful output
+    print_channel_output(channel, content)
     
     # Validation
-    print("\n[VALIDATION]")
+    console.print("\n[bold]VALIDATION:[/bold]")
     privacy_ok = validate_privacy(content, prospect_data)
-    if privacy_ok:
-        print("  ✓ Privacy check passed")
-    else:
-        print("  ✗ Privacy check failed")
+    print_validation_result("Privacy check", privacy_ok)
     
     ethics_ok = validate_ethics_and_display(content)
-    if ethics_ok:
-        print("  ✓ Ethics check passed")
-    else:
-        print("  ✗ Ethics check failed")
+    print_validation_result("Ethics check", ethics_ok)
     
     if privacy_ok and ethics_ok:
-        print("\n✓ All validation checks passed")
+        print_success("All validation checks passed")
     else:
-        print("\n⚠ Some validation issues found (see above)")
-    
-    # Content with separator
-    print("\n" + "-" * 80)
-    print("CONTENT:")
-    print("-" * 80)
-    print(content)
-    print("-" * 80)
-    
-    # Metadata
-    print(f"\nLength: {len(content)} characters")
-    word_count = len(content.split())
-    print(f"Words: {word_count}")
-    
-    # Channel-specific metadata
-    if channel == 'sms' and len(content) > 160:
-        print(f"⚠ SMS exceeds 160 character limit ({len(content) - 160} chars over)")
-    elif channel == 'whatsapp' and len(content) > 400:
-        print(f"⚠ WhatsApp message is quite long ({len(content)} chars)")
-    
-    print("=" * 80)
+        print_warning("Some validation issues found (see above)")
 
 
 def select_channel_for_regeneration(available_channels):
     """Let user select which channel to regenerate"""
-    print("\nSelect channel to regenerate:")
+    console.print("\n[bold]Select channel to regenerate:[/bold]")
     for i, channel in enumerate(available_channels, 1):
-        print(f"  {i}. {channel.upper()}")
+        console.print(f"  [cyan]{i}.[/cyan] {channel.upper()}")
     
     choice = input("\nEnter channel number: ").strip()
     
@@ -313,7 +281,7 @@ def select_channel_for_regeneration(available_channels):
     except:
         pass
     
-    print("Invalid selection.")
+    print_error("Invalid selection.")
     return None
 
 
@@ -321,8 +289,8 @@ if __name__ == "__main__":
     try:
         run_enhanced_outreach_engine()
     except KeyboardInterrupt:
-        print("\n\nInterrupted by user. Exiting...")
+        console.print("\n\n[yellow]⚠ Interrupted by user. Exiting...[/yellow]")
     except Exception as e:
-        print(f"\n\nFatal error: {str(e)}")
+        console.print(f"\n\n[bold red]✗ Fatal error: {str(e)}[/bold red]")
         import traceback
         traceback.print_exc()

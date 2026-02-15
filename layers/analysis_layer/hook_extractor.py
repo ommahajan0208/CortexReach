@@ -41,14 +41,44 @@ def extract_hooks(prospect_data, llm_generate_func, llm_config):
         # Parse hooks (simple implementation)
         hooks = parse_hooks_from_text(hooks_text, prospect_data)
         
-        print(f"Extracted {len(hooks)} personalization hooks")
+        # Import rich display
+        try:
+            from layers.visualization_layer.console_manager import print_hooks_table
+            print_hooks_table(hooks)
+        except ImportError:
+            # Fallback to simple display
+            print(f"Extracted {len(hooks)} personalization hooks")
+            if hooks:
+                print("\n[HOOKS] Personalization hooks extracted:")
+                for i, hook in enumerate(hooks, 1):
+                    hook_text = hook['hook_text']
+                    hook_type = hook.get('hook_type', 'general')
+                    display_text = hook_text if len(hook_text) <= 80 else hook_text[:77] + "..."
+                    print(f"  {i}. [{hook_type}] {display_text}")
         
         return hooks
         
     except Exception as e:
         print(f"Error extracting hooks: {str(e)}")
         # Fallback to rule-based hooks
-        return extract_basic_hooks(prospect_data)
+        hooks = extract_basic_hooks(prospect_data)
+        
+        # Display fallback hooks
+        try:
+            from layers.visualization_layer.console_manager import print_hooks_table
+            print_hooks_table(hooks)
+        except ImportError:
+            # Fallback display
+            if hooks:
+                print(f"Using {len(hooks)} rule-based hooks (fallback)")
+                print("\n[HOOKS] Personalization hooks extracted:")
+                for i, hook in enumerate(hooks, 1):
+                    hook_text = hook['hook_text']
+                    hook_type = hook.get('hook_type', 'general')
+                    display_text = hook_text if len(hook_text) <= 80 else hook_text[:77] + "..."
+                    print(f"  {i}. [{hook_type}] {display_text}")
+        
+        return hooks
 
 
 def format_prospect_data_for_hooks(data):
