@@ -2,7 +2,7 @@
 
 A beautiful terminal-based tool with Rich TUI that generates hyper-personalized cold outreach messages across multiple channels using offline LLMs and intelligent data analysis.
 
-![Feature Overview](images/1.png)
+![Feature Overview](images/1.jpg)
 
 ## Key Features
 
