@@ -2,9 +2,11 @@
 
 A beautiful terminal-based tool with Rich TUI that generates hyper-personalized cold outreach messages across multiple channels using offline LLMs and intelligent data analysis.
 
+![Feature Overview](images/1.png)
+
 ## Key Features
 
-### 🎨 Beautiful Terminal UI (NEW!)
+### 🎨 Beautiful Terminal UI
 - **Rich Console** - Color-coded workflow steps with progress bars
 - **Elegant Tables** - Beautiful bordered tables for hooks and data
 - **Visual Feedback** - Spinners, panels, and professional formatting
@@ -52,6 +54,8 @@ Generate unique, platform-optimized content with:
 - **Natural referencing** - Optionally mention past contacts
 - **Auto-configured** - llama3 model + English language (no prompts)
 - **Streamlined UX** - Removed unnecessary configuration steps
+
+![Visuals](images/3.jpeg)
 
 ## Architecture
 
@@ -159,57 +163,21 @@ python main_enhanced.py
 - Auto-configured (llama3 + English)
 - Instant testing and demonstrations
 
-## Usage Guide
+## Demo
 
-### Step-by-Step Workflow
+![CLI Demo](images/demo_0.png)
 
-1. **Client Selection** (Beautiful Rich Panel)
-   - Choose an existing client or create a new one
-   - Each client receives isolated data storage
+![CLI Demo](images/demo_1.png)
 
-2. **LLM Configuration** (Auto-Configured)
-   - Model: llama3 (auto-selected)
-   - Language: English (auto-selected)
-   - No prompts needed!
+![CLI Demo](images/demo_2.png)
 
-3. **Prospect Selection** (Fake Data Mode)
-   - Choose from 10 comprehensive test prospects
-   - Or type 'random' for surprise selection
-   - Select output channels (Email, WhatsApp, SMS, LinkedIn, Instagram)
+![CLI Demo](images/demo_3.png)
 
-4. **Data Display** (Beautiful Prospect Card)
-   - Visual display of prospect profile
-   - Company, role, and persona information
-   - Manual input for authenticated platforms.
-   - Data merging from all sources.
+![CLI Demo](images/demo_4.png)
 
-5. **Analysis**
-   - Persona analysis.
-   - Engagement score calculation.
-   - Personalization hook extraction.
+![CLI Demo](images/demo_5.png)
 
-6. **Context and Learning**
-   - Check for previous contacts at the same company.
-   - Reuse company insights from prior outreach.
-   - Build natural references.
-
-7. **Content Generation**
-   - Generate content for each selected channel.
-   - Apply channel-specific formatting and tone.
-
-8. **Validation and Review**
-   - Privacy check.
-   - Ethics validation.
-   - Content display.
-
-9. **Regeneration (Optional)**
-   - Modify specific channels.
-   - Specify desired changes.
-   - Regenerate while preserving tone.
-
-10. **Save**
-    - Store prospect data.
-    - Save company insights for reuse.
+![CLI Demo](images/demo_6.png)
 
 ## Differentiating Factors
 
@@ -295,30 +263,6 @@ data/
   "timestamp": "2026-02-01T14:30:22"
 }
 ```
-
-## Troubleshooting
-
-### Ollama Connection Issues
-
-```bash
-# Check if Ollama is running
-curl http://localhost:11434/api/tags
-
-# Restart Ollama (refer to platform-specific documentation)
-```
-
-### Import Errors
-
-```bash
-# Reinstall dependencies
-pip install -r requirements.txt --force-reinstall
-```
-
-### Slow Generation
-
-- Use a faster model (llama2 instead of llama3).
-- Reduce max_tokens in llm_interface.py.
-- Ensure Ollama has sufficient system resources.
 
 ## License
 
